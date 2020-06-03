@@ -1,13 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"></LinearLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        android:background="#FFFFFF"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.6">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="69dp"
+                android:layout_marginEnd="47dp"
+                android:src="@drawable/user"/>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="165dp"
+                android:layout_height="105dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="85dp"
+                android:layout_marginEnd="28dp"
+                android:layout_toStartOf="@+id/imageView"
+                android:fontFamily="@font/open_sans"
+                android:text="MENO \nPRIEZVISKO"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.3">
+
+            <ListView
+                android:id="@+id/listView_uvod_predmety"
+                android:layout_width="wrap_content"
+                android:layout_height="283dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="36dp"
+                android:layout_marginTop="44dp"
+                android:layout_marginEnd="36dp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="40dp"
+                android:layout_marginTop="10dp"
+                android:text="PREDMETY:" />
+
+            <ImageButton
+                android:id="@+id/button"
+                android:layout_width="122dp"
+                android:layout_height="96dp"
+                android:layout_below="@+id/listView_uvod_predmety"
+
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="142dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="146dp"
+                android:layout_marginBottom="33dp"
+                android:adjustViewBounds="true"
+                android:background="#FFFFFF"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add2" />
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
