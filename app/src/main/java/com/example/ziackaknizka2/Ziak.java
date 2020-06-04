@@ -5,8 +5,8 @@ import java.util.ArrayList;
 class Ziak extends Osoba{
     private ArrayList<Double> hodnotenia;
 
-    public Ziak(String meno, String priezvisko) {
-        super(meno, priezvisko);
+    public Ziak(int id, String meno, String priezvisko) {
+        super(id,meno, priezvisko);
         this.hodnotenia = new ArrayList<>();
     }
 

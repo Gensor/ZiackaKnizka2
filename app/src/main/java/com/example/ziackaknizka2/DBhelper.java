@@ -1,0 +1,152 @@
+package com.example.ziackaknizka2;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteStatement;
+import android.util.Log;
+
+import java.util.Random;
+
+public class DBhelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "ziackaKnizka.db";
+
+
+
+
+
+    DBhelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    @Override
+    public void onCreate(SQLiteDatabase db) {
+    //na id pouzivam ROWID
+        String sqlCreate_osoba = "CREATE TABLE " +
+                MyContract.Osoba.TABLE_NAME + " ( " +
+                MyContract.Osoba.COL_MENO + " text not null, " +
+                MyContract.Osoba.COL_PRIEZVISKO + " text not null ) ";
+        db.execSQL(sqlCreate_osoba);
+        String sqlCreate_ucitelia = "CREATE TABLE " +
+                MyContract.Ucitel.TABLE_NAME + " ( " +
+                MyContract.Ucitel.COL_OSOBA + " text not null, " +
+                MyContract.Ucitel.COL_UCITELOV_PREDMET + " int not null ) ";
+        db.execSQL(sqlCreate_ucitelia);
+        String sqlCreate_ziaci = "CREATE TABLE " +
+                MyContract.Ziak.TABLE_NAME + " ( " +
+                MyContract.Ziak.COL_OSOBA + " int not null, " +
+                MyContract.Ziak.COL_HODNOTENIE + " real not null, " +
+                MyContract.Ziak.COL_HODNOTENIE_NAZOV + " text not null ) ";
+        db.execSQL(sqlCreate_ziaci);
+        String sqlCreate_predmety = "CREATE TABLE " +
+                MyContract.Predmet.TABLE_NAME + " ( " +
+                MyContract.Predmet.COL_NAZOV + " text not null, " +
+                MyContract.Predmet.COL_POPIS + " text, " +
+                MyContract.Predmet.COL_OSNOVA + " text )";
+        db.execSQL(sqlCreate_predmety);
+        String sqlCreate_ucitelovePredmety = "CREATE TABLE " +
+                MyContract.UcitelovPredmet.TABLE_NAME + " ( " +
+                MyContract.UcitelovPredmet.COL_PREDMET + " int not null, " +
+                MyContract.UcitelovPredmet.COL_TRIEDA + " text not null, " +
+                MyContract.UcitelovPredmet.COL_ZIAK + " int not null ) ";
+        db.execSQL(sqlCreate_ucitelovePredmety);
+        // asdfajhdlkfalkdsfjlaksdjflkasdjkflasjdf
+        System.out.println("vytvoril som tabulky");
+        generujLudiDoDatabazy(150,db);
+
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+    }
+
+    private Osoba[] generatorLudi(int pocet){
+
+        String[] mena = {"Bohuslav","Boleslav","Bonifác","Boris","Bořek","Bořivoj","Bronislav","Bruno","Břetislav","Ctibor","Ctirad","Cyril","Čeněk","Čestmír","Dalibor","Dalimil","Daniel","David","Dobroslav","Dominik","Drahoslav","Dušan","Eduard","Emanuel","Emil","Erik","Evžen","Felix","Ferdinand","Filip","František","Gabriel","Gustav","Hanuš","Havel","Herbert","Heřman","Horymír","Hubert","Hugo","Hynek","Ignác","Igor","Ingrid","Ivan","Ivo","Jáchym","Jakub","Jan","Jarmil","Jaromír","Jaroslav","Jeroným","Jindřich","Jiří","Jonáš","Josef","Julius","Kamil","Karel","Kazimír",
+                "Rudolf","Řehoř","Samuel","Servác","Silvestr","Slavomír","Soběslav","Stanislav","Svatopluk","Svatoslav","Šimon","Štefan","Štěpán","Tadeáš","Teodor","Tibor","Tomáš","Václav","Valdemar","Valentýn","Vavřinec","Věnceslav","Vendelín","Věroslav","Viktor","Vilém","Vincenc","Vít","Vítězslav","Vladan","Vladimír","Vladislav","Vlastimil","Vlastislav","Vojtěch","Vratislav","Zbyněk","Zbyšek","Zdeněk","Zikmund",
+                "Klement","Kristián","Kryštof","Květoslav","Kvido","Ladislav","Leopold","Leoš","Libor","Lubomír","Lubor","Luboš","Luděk","Ludvík","Lukáš","Lumír","Marcel","Marek","Marián","Martin","Matěj","Matouš","Maxim","Medard","Metoděj","Michal","Mikuláš","Milan","Miloslav","Miloš","Miroslav","Mojmír","Norbert","Oldřich","Oleg","Oliver","Ondřej","Oskar","Otakar","Otmar","Oto","Pankrác","Patrik","Pavel","Petr","Pravoslav","Prokop","Přemysl","Radan","Radek","Radim","Radomír","Radoslav","Radovan","René","Richard","Robert","Robin","Roland","Roman","Rostislav"};
+        String[] priezviska = {"Abraham","Absolon","Adam","Adamčík","Adamec","Adámek","Adamík","Albert","Albrecht","Alexa","Altman","Ambrož","Anděl","Anderle","Andrle","Andrlík","Andrš","Andrýsek","Antl","Antoš","Aubrecht","Augusta","Augustin","Babák","Babický","Babka","Bača","Báča","Bačík","Baďura","Baier","Bajer","Bajgar","Bakeš","Balák","Baláš","Baláž","Balcar","Balcárek","Balek","Bálek","Balík","Balog","Balogh","Baloun","Balvín","Bambas","Bandy","Barák","Baran","Baránek","Bareš","Baroš","Bárta","Barták","Bartek","Bártek","Bartík","Bartl","Bártl","Bartoň","Bartoněk","Bartoníček","Bartoš","Bartošek","Bartošík","Bartůněk","Bartušek","Bařina","Bastl","Bašta","Batěk","Bauer","Baxa","Bayer","Bažant","Beck","Bečka","Bečvář","Bednář","Bednařík","Běhal","Běhounek","Bechyně","Bejček","Bek","Bělík","Bělka","Bělohlávek","Bém","Benák","Benda","Bendík","Bendl","Benedikt","Beneš","Beníšek","Benko","Beňo","Beran","Beránek","Berger","Berka","Berky","Bernard","Bernášek","Bernat","Bezděk","Bezdíček","Bican","Bílek","Bilík","Bilý","Bílý","Bína","Binar","Binder","Biskup","Bittner","Blaha","Bláha","Blahut","Blahuta","Blažej","Blažek","Blecha","Bobek","Bocek","Boček","Bodlák","Boháč","Boháček","Bohatý","Böhm","Bőhm","Bohuslav","Bojko","Bolek","Borek","Borkovec","Borovec","Borovička","Borovský","Borůvka","Bořil","Bosák","Bošek","Botek","Bouček","Bouda","Bouchal","Bouška","Bouzek","Božek","Brabec","Brabenec","Brada","Bradáč","Branda","Brandejs","Braun","Bravenec","Brázda","Brázdil","Brejcha","Brhel","Brodský","Brom","Brouček","Brož","Brožek","Brožík","Brůha","Brůna","Brunclík","Brůžek","Brych","Brychta","Brynda","Brzák","Brzobohatý","Břečka","Březina","Břicháček","Bříza","Buben","Bubeníček","Bubeník","Bublík","Buček","Bučko","Budík","Budil","Budín","Buchar","Buchta","Bui","Bukáček","Bukovský","Bulíček","Bulín","Bulíř","Burda","Bureš","Burger","Burget","Burian","Burián","Buriánek","Bursa","Bursík","Buršík","Buřič","Bušek","Buzek","Bůžek","Bydžovský","Byrtus","Bystroň","Bystřický","Caha","Cahová","Cach","Cajthaml","Cao","Carda","Cejnar","Cejpek","Cerman","Cibulka","Cienciala","Cieslar","Cigánek","Cihlář","Cina","Cink","Císař","Coufal","Crha","Culek","Cvrček","Čada","Čadek","Čajka","Čáp","Čapek","Čapka","Čáslavský","Čech","Čechura","Čejka","Čepelák","Čermák","Černík","Černohorský","Černohous","Černoch","Černý","Červeňák","Červenka","Červený","Červinka","Čeřovský","Češka","Čevela","Čihák","Číhal","Čipera","Číž","Čížek","Čonka","Čurda","Čureja","Danda","Daněk","Dang","Daňhel","Daníček","Daniel","Danihel","Daniš","Danko","Daňo","Dao","David","Davídek","Dedek","Dědek","Dědič","Dejmek","Demel","Demeter","Denk","Diblík","Dimitrov","Dinh","Dítě","Dittrich","Diviš","Dlask","Dlouhý","Dluhoš","Do","Doan","Dobeš","Dobiáš","Dobrovolný","Dobrý","Dočekal","Dočkal","Dohnal","Dohnálek","Dokoupil","Dokulil","Dolák","Dolanský","Doleček","Dolejš","Dolejší","Doležal","Doležel","Donát","Dopita","Doseděl","Doskočil","Dosoudil","Dostál","Dostálek","Došek","Doubek","Doubrava","Douda","Douša","Dráb","Drábek","Dragoun","Drahokoupil","Drahoňovský","Drahoš","Drápal","Drápela","Drbal","Drbohlav","Drda","Drexler","Drlík","Drobná","Drobný","Drozd","Drtina","Dub","Duba","Dubec","Duben","Dubský","Duda","Dudek","Dufek","Ducháček","Duchek","Duchoň","Duna","Dunka","Duong","Ďuriš","Dušek","Dvorský","Dvořáček","Dvořák","Dytrych","Dzurko","Eder","Ehrenberger","Eichler","Eliáš","Erben","Ernest","Exner","Fabian","Fabián","Fait","Fajkus","Fajt","Falta","Faltus","Faltýnek","Fanta","Farkaš","Farský","Fedák","Fejfar","Fencl","Ferenc","Ferko","Fiala","Fialka","Ficek","Fidler","Fiedler","Fikar","Fila","Filip","Filípek","Filipi","Filo","Fink","Fischer","Fišar","Fišer","Fišera","Flachs","Flek","Flídr","Florian","Florián","Fojt","Fojtík","Fojtů","Foldyna","Folprecht","Folta","Foltýn","Forejt","Forman","Formánek","Forst","Forstová","Fořt","Foukal","Fous","Fousek","Franc","Franek","Franěk","Frank","Franta","Franz","Fric","Frič","Fridrich","Friedl","Friedrich","Fröhlich","Frolík","Froněk","Frühauf","Fryč","Frýdl","Frydrych","Fučík","Fuchs","Fuka","Fuksa","Fulín","Fürst","Fusek","Gabčo","Gábor","Gabriel","Gajda","Gajdoš","Gajdošík","Gál","Gašpar","Gavenda","Gazda","Gazdík","Gaži","Gebauer","Giňa","Glaser","Glos","Gondek","Gorol","Gottvald","Gottwald","Gregor","Grepl","Grim","Gross","Grossmann","Gruber","Grulich","Grund","Grundza","Grunt","Gryc","Grygar","Ha","Haas","Hadač","Hadrava","Hahn","Hajda","Hájek","Hajný","Hák","Haken","Hakl","Hála","Halama","Halfar","Halík","Halíř","Halouzka","Haluška","Haluza","Hamáček","Haman","Hamerník","Hamouz","Hampl","Hána","Hanáček","Hanák","Handl","Hanke","Hanko","Hanousek","Hanus","Hanuš","Hanzal","Hanzelka","Hanzl","Hanzlíček","Hanzlík","Harant","Hartl","Hartman","Hartmann","Hašek","Hauser","Havel","Havelka","Havlena","Havlíček","Havlík","Havlín","Havran","Havránek","Havrda","Heczko","Heger","Hegr","Heinrich","Heinz","Hejda","Hejduk","Hejl","Hejna","Hejný","Hejtmánek","Hejzlar","Helešic","Heller","Hendrych","Henzl","Herák","Herink","Herman","Hermann","Herold","Herzán","Heřman","Heřmánek","Hes","Hess","Hladík","Hladký","Hlava","Hlaváč","Hlaváček","Hlavatý","Hlavička","Hlavinka","Hlávka","Hlavnička","Hlavsa","Hlinka","Hlobil","Hloušek","Hložek","Hlubuček","Hnát","Hnátek","Hnilica","Hnilička","Hnízdil","Hoang","Hobza","Hodan","Hodek","Hoffman","Hoffmann","Hofman","Hofmann","Hoch","Hochman","Holan","Holas","Holásek","Holba","Holčák","Holec","Holeček","Holek","Holík","Holiš","Holman","Holomek","Holoubek","Holub","Holubec","Holuša","Holý","Homola","Homolka","Hon","Hons","Honzík","Hora","Horáček","Horák","Horálek","Horčička","Horký","Horn","Horna","Horňák","Horníček","Horník","Horský","Hort","Horvát","Horváth","Horyna","Hořák","Hořejší","Hoření","Hořínek","Hošek","Hotový","Houdek","Houser","Houska","Houška","Hovorka","Hoza","Hozák","Hrabák","Hrabal","Hrabánek","Hrabě","Hrabec","Hrabovský","Hradecký","Hrádek","Hradil","Hradský","Hrach","Hrachovec","Hrbáč","Hrbáček","Hrbek","Hrdina","Hrdlička","Hrdý","Hrnčíř","Hroch","Hromada","Hromádka","Hromádko","Hromek","Hron","Hronek","Hrouda","Hrstka","Hrubeš","Hrubý","Hruška","Hrůza","Hřebíček","Hříbal","Hubáček","Hubálek","Hubený","Hubka","Hübner","Hudák","Hudec","Hudeček","Hůla","Hůlka","Huml","Hůrka","Hurt","Hurta","Hurych","Husák","Husár","Hušek","Hvězda","Hýbl","Hynek","Hýsek","Chadim","Chadima","Chaloupka","Chalupa","Charvát","Chen","Chlad","Chládek","Chloupek","Chlubna","Chlumský","Chlup","Chmel","Chmela","Chmelař","Chmelík","Chochola","Chovanec","Chramosta","Chromý","Chroust","Chudoba","Chudý","Chvátal","Chvojka","Chyba","Chytil","Chytka","Indra","Indrák","Ištok","Ivan","Ivanov","Jabůrek","Jäger","Jahn","Jahoda","Jakeš","Jakl","Jakoubek","Jakubec","Jakubík","Jalůvka","Jambor","Janáč","Janáček","Janák","Janata","Janča","Jančík","Janda","Jandera","Jandík","Jandl","Janeček","Janečka","Janek","Janíček","Janík","Janiš","Janko","Jankovič","Jankovský","Jano","Janoš","Janošek","Janota","Janouch","Janouš","Janoušek","Janovský","Jansa","Janský","Jánský","Januš","Jareš","Jarkovský","Jarolím","Jarolímek","Jaroš","Jarý","Jašek","Javorský","Javůrek","Jebavý","Jedlička","Jehlička","Jech","Jelen","Jelínek","Jemelka","Jeníček","Jeník","Jeřábek","Jež","Ježek","Jícha","Jílek","Jindra","Jindřich","Jíra","Jiráček","Jirák","Jiránek","Jirásek","Jirka","Jirkovský","Jirouš","Jiroušek","Jirout","Jirsa","Jiříček","Jiřička","Jiřík","Jiskra","Jíša","John","Jonák","Jonáš","Jordán","Joska","Juchelka","Jukl","Junek","Jung","Jungmann","Juračka","Jurák","Juráň","Juránek","Jurásek","Jurášek","Jurča","Jurčík","Jurečka","Jurek","Jurka","Juřena","Juřica","Juříček","Juřík","Just","Jůza","Kabát","Kabelka","Kábrt","Kačer","Kačírek","Kadeřábek","Kadlčík","Kadlec","Kadleček","Kafka","Kahánek","Kahoun","Kaiser","Kala","Kaláb","Kalaš","Kaleja","Kalenda","Kaleta","Kalina","Kališ","Kalivoda","Kalous","Kalousek","Kalus","Kaluža","Kalvoda","Kamenický","Kameník","Kamenský","Kaňa","Káňa","Kaňák","Kania","Kaňka","Kaňok","Kantor","Kaplan","Kapoun","Kapusta","Kára","Karafiát","Karas","Karásek","Karban","Karel","Kareš","Karlík","Kárník","Karpíšek","Kasal","Kasík","Kasl","Kaslová","Kastner","Kaše","Kašík","Kašpar","Kašpárek","Kaucký","Kavan","Kavka","Kazda","Keller","Kellner","Keprt","Kettner","Kilián","Kim","Kincl","Kindl","Kiss","Klaban","Klapka","Klas","Klásek","Klaus","Klečka","Klein","Klement","Klíč","Klička","Klika","Klíma","Klimek","Klímek","Kliment","Klimeš","Klos","Klouček","Klouda","Klus","Klusáček","Klusák","Kment","Kmoch","Kmoníček","Knap","Knápek","Kníže","Knížek","Knobloch","Knop","Knopp","Knotek","Kobliha","Koblížek","Kobr","Kobylka","Kobza","Kocáb","Kocián","Kocman","Kocourek","Kocur","Kočí","Kočka","Kofroň","Kohl","Köhler","Kohout","Kohoutek","Kohut","Koch","Kokeš","Kokoška","Koky","Koláček","Kolaja","Kolář","Kolařík","Kolda","Kolek","Kolínek","Kolínský","Kollár","Koller","Kolman","Kolomazník","Kolouch","Komárek","Komenda","Komínek","Koňařík","Konečný","Koníček","König","Konopásek","Konrád","Konvalina","Konvalinka","Konvička","Kopáček","Kopal","Kopecký","Kopeček","Kopečný","Kopp","Kopřiva","Koranda","Korbel","Korčák","Korda","Korec","Korecký","Kořán","Kořenek","Kořínek","Kos","Kosař","Kosek","Kosík","Kosina","Kostelník","Kostka","Košař","Košek",
+                "Košťál","Kotala","Kotas","Kotásek","Kotek","Kotík","Kotlár","Kotrba","Kotrč","Kotrla","Kott","Kotyza","Kouba","Koubek","Koucký","Koudela","Koudelka","Koukal","Kouřil","Kousal","Kout","Koutník","Koutný","Koutský","Kovács","Kovač","Kováč","Kováčik","Kovach","Koval","Kovalčík","Kovanda","Kovář","Kovařík","Kovářík","Koza","Kozák","Kozel","Kozlík","Kozubík","Koželuh","Kožený","Kožíšek","Kožušník","Kracík","Kraft","Krajča","Krajčovič","Krajíček","Krákora","Král","Králíček","Králík","Kramář","Krása","Krásný","Kratina","Krátký","Kratochvil","Kratochvíl","Kraus","Krbec","Krč","Krčál","Krček","Krčil","Krčma","Krčmář","Krejcar","Krejča","Krejčí","Krejčík","Krejčíř","Krejčiřík","Krejsa","Krejza","Kresta","Krist","Kristek","Krištof","Krkoška","Krob","Krobot","Kročil","Kroka","Kropáč","Kropáček","Kroščen","Kroupa","Kroutil","Krpec","Krsek","Krška","Kruliš","Kruml","Krupa","Krupička","Krupka","Kružík","Kryl","Kryštof","Křeček","Křemen","Křen","Křenek","Křepelka","Křikava","Křístek","Křivan","Křivánek","Křivka","Kříž","Křížek","Kuba","Kubala","Kubálek","Kubáň","Kubánek","Kubát","Kubec","Kubeček","Kuběna","Kubeš","Kubica","Kubíček","Kubík","Kubín","Kubina","Kubiš","Kubišta","Kuča","Kučera","Kučírek","Kudela","Kudělka","Kudláček","Kudlička","Kudrna","Kufa","Kugler","Kuhn","Kuchař","Kuchařík","Kuchta","Kukačka","Kukla","Kula","Kulhánek","Kulhavý","Kulich","Kulík","Kulíšek","Kuna","Kunc","Kundrát","Kunert","Kuneš","Kunst","Kunz","Kupčík","Kupec","Kupka","Kurečka","Kurka","Kůrka","Kuruc","Kůs","Kusák","Kusý","Kuthan","Kutil","Kutílek","Kužel","Kužela","Kvapil","Kvasnica","Kvasnička","Květoň","Kyncl","Kysela","Kyselý","Kysilka","Lacina","Lacko","Lachman","Lakatoš","Lakomý","Lamač","Landa","Lang","Langer","Langr","Láník","Lánský","Lapčík","Lasák","Láska","Laštůvka","Látal","Lavička","Lazar","Le","Lebeda","Ledvina","Ledvinka","Lee","Lehký","Lejsek","Lekeš","Lelek","Lenc","Lerch","Lesák","Lev","Levý","Lexa","Lhota","Lhoták","Lhotský","Li","Líbal","Linhart","Linka","Lipka","Lipovský","Lipták","Lisý","Liška","Lněnička","Lochman","Lokaj","Lorenc","Lorenz","Loskot","Loučka","Louda","Loukota","Ludvík","Lukáč","Lukáš","Lukášek","Lukeš","Luňáček","Luňák","Lupač","Lysák","Máca","Macák","Maceček","Macek","Macík","Macko","Macoun","Macura","Maděra","Mádle","Mádr","Mahdal","Mach","Mácha","Machač","Macháč","Macháček","Machala","Machálek","Macháň","Machek","Macho","Machovec","Mai","Maier","Maixner","Majer","Makovec","Makula","Malát","Malec","Maleček","Málek","Malík","Malina","Mališ","Malý","Man","Maňák","Maňas","Maňásek","Mandík","Mann","Mára","Mareček","Marek","Mareš","Marko","Markovič","Markvart","Maroušek","Maršálek","Maršík","Martin","Martinák","Martinec","Martinek","Martínek","Martinka","Martinovský","Martynek","Marvan","Maryška","Mařík","Masař","Masařík","Máslo","Masopust","Mastný","Máša","Mašek","Mašín","Maška","Maštalíř","Matas","Matěj","Matějček","Matějíček","Matějka","Matějovský","Materna","Mátl","Matocha","Matouš","Matoušek","Matula","Matura","Matušek","Matuška","Matyáš","Matys","Matýsek","Maxa","Mayer","Mazáč","Mazal","Mazanec","Mazánek","Mazur","Med","Medek","Meduna","Měchura","Mejstřík","Mejzlík","Melich","Melichar","Melka","Melnyk","Meloun","Mencl","Menšík","Měrka","Merta","Mertl","Metelka","Mezera","Míča","Míček","Mička","Michal","Míchal","Michalčík","Michalec","Michálek","Michalík","Michl","Michna","Mika","Míka","Mikel","Mikeska","Mikeš","Miklík","Miko","Mikoláš","Mikolášek","Mikšík","Mikšovský","Mikula","Mikuláš","Mikulášek","Mikulec","Mikulecký","Mikulenka","Mikulík","Mikulka","Mikuš","Miler","Miller","Milota","Minarčík","Minář","Minařík","Mirga","Míšek","Miškovský","Mitáš","Mizera","Mládek","Mlčák","Mlčoch","Mlejnek","Mlynář","Mlýnek","Moc","Mocek","Mohyla","Mojžíš","Mokrý","Molnár","Moravčík","Moravec","Morávek","Motl","Mottl","Motyčka","Motyka","Moučka","Moudrý","Moucha","Moulis","Mráček","Mráz","Mrázek","Mrkva","Mrkvička","Mrva","Mudra","Mucha","Müller","Műller","Munzar","Musil","Musílek","Mužík","Mynář","Myslivec","Myšák","Myška","Nádvorník","Nagy","Nahodil","Najman","Nakládal","Nápravník","Návrat","Navrátil","Nečas","Nedbal","Nedoma","Nedvěd","Nechvátal","Nejedlý","Nejezchleb","Nekola","Němec","Němeček","Németh","Nepraš","Nerad","Nesvadba","Nešpor","Netík","Netolický","Netušil","Neubauer","Neugebauer","Neuman","Neumann","Neuwirth","Neužil","Nevrlý","Nezbeda","Nezval","Ngo","Nguyen","Nguyen Thi","Nguyen Van","Nikl","Noga","Nohejl","Nohel","Nosek","Nováček","Novák","Novosad","Novosád","Novotný","Nový","Nowak","Nožička","Nykl","Nytrová","Nývlt","Obdržálek","Odehnal","Odvárka","Olah","Oláh","Olejník","Oliva","Olšák","Onderka","Ondra","Ondráček","Ondrák","Ondrášek","Ondroušek","Ondruch","Ondruš","Ondřej","Opatrný","Opletal","Oplt","Opluštil","Opravil","Oračko","Oravec","Orel","Orság","Osička","Osvald","Ošťádal","Otáhal","Otruba","Ott","Otta","Oulehla","Pacák","Pačes","Pagáč","Pajer","Pala","Palán","Palát","Paleček","Páleník","Palička","Pálka","Panáček","Pánek","Papež","Papoušek","Páral","Parma","Pařík","Pařil","Pařízek","Paseka","Pastorek","Pastrňák","Pastyřík","Pašek","Paták","Pátek","Patera","Patka","Patočka","Paul","Paulík","Paulus","Paur","Páv","Pávek","Pavel","Pavelec","Pavelek","Pavelka","Pavlas","Pavlásek","Pavlát","Pavlica","Pavlíček","Pavlík","Pavlis","Pavliš","Pavlovič","Pavlovský","Pazdera","Pazderka","Pazourek","Pažout","Pecina","Pecka","Pečenka","Pech","Pecha","Pecháček","Pechar","Pejša","Pek","Pekárek","Pekař","Pěkný","Pelán","Pelant","Pelc","Pelikán","Pelíšek","Peňáz","Pěnička","Pěnkava","Pergl","Pernica","Peroutka","Peřina","Peřinová","Pešák","Pešek","Peška","Pešl","Pešta","Peter","Petera","Peterek","Peterka","Petr","Petráček","Petrák","Petráň","Petrásek","Petráš","Petrášek","Petrlík","Petrov","Petrus","Petržela","Petrželka","Petřek","Petříček","Petřík","Pfeifer","Pham","Phan","Picek","Picka","Pícha","Pilař","Pilát","Pilný","Pinc","Pinkas","Pinkava","Piňos","Pipek","Pírek","Pirkl","Píša","Pištěk","Pitra","Pivoňka","Plaček","Plachý","Plášek","Plašil","Plášil","Plecitý","Plecháč","Plechatý","Pleskot","Pleva","Plch","Plíhal","Pliska","Plíšek","Plíva","Plocek","Plšek","Pluhař","Plzák","Podaný","Podešva","Podhorský","Podroužek","Podzimek","Pohanka","Pohl","Pokorný","Poláček","Polach","Polách","Polák","Polanský","Polášek","Polcar","Poledník","Polívka","Pollák","Pompa","Pop","Popek","Popelka","Popovič","Popovych","Poslední","Poslušný","Pospěch","Pospíchal","Pospíšil","Potůček","Poul","Pour","Pouzar","Povolný","Prachař","Prášek","Prášil","PRAVDA","Pražák","Pražan","Preisler","Prchal","Prchlík","Princ","Procházka","Prokeš","Prokop","Prokopec","Prokš","Prokůpek","Prošek","Prouza","Provazník","Průcha","Průša","Přecechtěl","Přenosil","Přibyl","Přidal","Příhoda","Přichystal","Přikryl","Psota","Pšenička","Ptáček","Ptáčník","Pták","Pudil","Půlpán","Punčochář","Pustějovský","Pýcha","Pyszko","Pytlík","Rác","Racek","Ráček","Rada","Rafaj","Rais","Rak","Rambousek","Randa","Raszka","Raška","Rataj","Rathouský","Reich","Reichl","Rejman","Rejzek","Rek","Remeš","Rendl","Rezek","Riedl","Rieger","Richter","Richtr","Rishko","Roček","Rod","Roháč","Roháček","Rokos","Roman","Rosa","Roth","Rott","Rotter","Roubal","Roubíček","Roučka","Rous","Rousek","Rozehnal","Rozsíval","Rozsypal","Rubáš","Rubeš","Ručka","Rudolf","Ruml","Rus","Rusek","Rusňák","Růžek","Růžička","Ryba","Rybák","Rybár","Rybář","Rybka","Rybníček","Rýdl","Rychlík","Rychlý","Rychtařík","Rys","Ryšánek","Ryšavý","Ryška","Rytíř","Řeháček","Řehák","Řehoř","Řepa","Řepka","Řeřicha","Řezáč","Řezníček","Řezník","Řežábek","Říha","Řihák","Řípa","Sadílek","Salaba","Salač","Salajka","Salák","Samec","Samek","Samko","Sedláček","Sedlák","Sedlář","Sehnal","Seidl","Seidler","Seifert","Sejkora","Sekanina","Sekera","Sekyra","Semerád","Semerák","Semrád","Severa","Schejbal","Schiller","Schindler","Schmid","Schmidt","Schmied","Schneider","Scholz","Schreiber","Schubert","Schulz","Schuster","Schwarz","Sigmund","Sikora","Simandl","Simon","Sirotek","Sivák","Sixta","Skácel","Skala","Skála","Skalický","Skalka","Skalník","Skalský","Sklenář","Skokan","Skopal","Skořepa","Skotnica","Skoumal","Skoupý","Skřivan","Skřivánek","Skýpala","Slabý","Sládeček","Sládek","Sladký","Sláma","Slanina","Slánský","Slaný","Slavíček","Slavík","Slepička","Slezák","Slíva","Slivka","Slouka","Sloup","Slováček","Slovák","Sluka","Smejkal","Smékal","Smetana","Smíšek","Smola","Smolík","Smolka","Smrček","Smrčka","Smrž","Smutný","Snášel","Snopek","Sobek","Sobota","Sobotka","Sodomka","Socha","Sochor","Sojka","Sokol","Solař","Soldán","Sommer","Sosna","Souček","Soukal","Soukup","Soušek","Sova","Spáčil","Spěvák","Spilka","Spousta","Spurný","Srb","Srba","Srnec","Srp","Stach","Staněk","Staník","Stanislav","Stárek","Starý","Stašek","Stavinoha","Stehlík","Stehno","Steiner","Stejskal","Steklý","Stibor","Stibůrek","Stibůrková","Stloukal","Stodola","Stodůlka","Stojka","Stoklasa","Stoklásek","Strachota","Straka","Strakoš","Stránský","Stratil","Strejc","Strejček","Strmiska","Strnad","Strnadel","Strouhal","Strýček","Středa","Střelec","Stříbrný","Stříž","Studený","Studnička","Stuchlík","Stuchlý","Stupka","Stýblo","Suda","Suchan","Suchánek","Sucharda","Suchomel","Suchý","Suk","Surý","Sůva","Svačina","Svárovský","Svatek",
+                "Svatoň","Svatoš","Světlík","Sviták","Svoboda","Svozil","Sychra","Sýkora","Synek","Syrovátka","Sysel","Szabo","Szabó","Szkandera","Szotkowski","Šabata","Šafář","Šafařík","Šafránek","Šach","Šácha","Šálek","Šámal","Šanda","Šandera","Šandor","Šašek","Šauer","Ščuka","Šebek","Šebela","Šebesta","Šeda","Šedivý","Šedý","Šefčík","Šefl","Šembera","Šenk","Šenkeřík","Šenkýř","Šerá","Šerý","Šesták","Ševčík","Šídlo","Šigut","Šik","Šikula","Šilar","Šilhan","Šilhán","Šilhánek","Šíma","Šimáček","Šimák","Šiman","Šimánek","Šimčík","Šimeček","Šimek","Šimíček","Šimon","Šimoník","Šimůnek","Šindelář","Šindelka","Šindler","Šíp","Šípek","Šír","Široký","Šiška","Škarda","Škoda","Škop","Škopek","Škorpík","Škrabal","Škuta","Škvor","Šlajs","Šlapák","Šlehofer","Šlechta","Šlesinger","Šmarda","Šmehlík","Šmejkal","Šmerda","Šmíd","Šmída","Šmídek","Šmídl","Šmolík","Šnajdr","Šnobl","Šolc","Šoltys","Šorm","Šotola","Šourek","Špaček","Špalek","Šperl","Špičák","Špička","Špinar","Špinka","Šplíchal","Šrámek","Šrom","Šrubař","Štancl","Šťástka","Šťastný","Štefan","Štefek","Štefka","Štefl","Štěch","Štencl","Štěpán","Štěpánek","Štěpnička","Štěrba","Štětina","Štětka","Štika","Štípek","Štochl","Štolba","Štorek","Šťovíček","Štrobl","Štrunc","Šturma","Šuba","Šubert","Šubrt","Šula","Šulák","Šulc","Šusta","Šustek","Šustr","Šváb","Švadlenka","Švancara","Švanda","Švarc","Švec","Švéda","Švehla","Švejda","Švestka","Švorc","Švrček","Táborský","Takáč","Tancoš","Tauchman","Tauš","Teplý","Tesárek","Tesař","Tesařík","Ticháček","Tichý","Tkáč","Tkadlec","Tlustý","Tobiáš","Tobola","Tokár","Tolar","Toman","Tomanec","Tománek","Tomáš","Tomášek","Tomeček","Tomek","Tomeš","Tomíček","Topič","Topinka","Toth","Tóth","Toufar","Touš","Toušek","Tran","Tran Thi","Trávníček","Trčka","Trefil","Trejbal","Trinh","Trnka","Troják","Trojan","Truhlář","Truong","Třešňák","Tříska","Tuček","Tůma","Tupý","Tureček","Turek","Turoň","Tvarůžek","Tvrdík","Tvrdoň","Tvrdý","Tvrzník","Tyl","Uher","Uherek","Uhlík","Uhlíř","Uchytil","Úlehla","Ullmann","Ulman","Ulrich","Ulrych","Unger","Ungr","Urban","Urbanec","Urbánek","Urbášek","Vacek","Vacík","Václavek","Václavík","Vacula","Vaculík","Vágner","Vach","Vácha","Váchal","Vajda","Vala","Vála","Valach","Valášek","Valčík","Válek","Valenta","Valeš","Valíček","Valík","Vališ","Válka","Valouch","Valta","Valter","Valtr","Váňa","Vančura","Vaněček","Vaněk","Vaníček","Vaník","Vaniš","Vaňous","Vápeník","Varga","Varmuža","Vařeka","Váša","Vašák","Vašek","Vašíček","Vašina","Vaško","Vašků","Vašut","Vaverka","Vávra","Vavrečka","Vavruška","Vavřička","Vavřík","Vavřín","Vavřina","Večerka","Večeřa","Vedral","Vejvoda","Veleba","Velecký","Velek","Velička","Velíšek","Vencl","Vepřek","Verner","Veselka","Veselský","Veselý","Větrovec","Větrovský","Veverka","Vích","Vícha","Vik","Viktora","Viktorin","Vild","Vilím","Vilímek","Vinklárek","Vinkler","Vinš","Vintr","Víšek","Vít","Vitásek","Vítek","Vítovec","Vladyka","Vlach","Vlasák","Vlášek","Vlček","Vlk","Vo","Voborník","Vobořil","Vocásek","Voda","Vodák","Vodička","Vodrážka","Vogel","Vogl","Vojáček","Vojkůvka","Vojta","Vojtěch","Vojtek","Vojtíšek","Vokáč","Vokál","Vokoun","Vokurka","Volák","Voldřich","Volejník","Volek","Volf","Volný","Vomáčka","Vondra","Vondráček","Vondrák","Vondrášek","Vondruška","Vopat","Voráč","Voráček","Vorel","Vorlíček","Voříšek","Vosáhlo","Vosátka","Vostrý","Votava","Votoček","Votruba","Votýpka","Voves","Voženílek","Vrabec","Vrábel","Vráblík","Vrána","Vránek","Vraný","Vrátný","Vrba","Vrbka","Vršecký","Vrzal","Všetečka","Vu","Vybíral","Výborný","Vydra","Vyhlídal","Vyhnálek","Vyhnánek","Vychodil","Vykoukal","Vykydal","Vymazal","Vymětal","Vyoral","Vyroubal","Vyskočil","Vysloužil","Vystrčil","Vytlačil","Wagner","Wágner","Walter","Wang","Wasserbauer","Weber","Weiss","Werner","Wiesner","Wimmer","Winkler","Winter","Wojnar","Wolf","Zabloudil","Zábojník","Zábranský","Zadina","Zadražil","Zahálka","Záhora","Zahrádka","Zahradníček","Zahradník","Zach","Zachoval","Zajac","Zajíc","Zajíček","Záleský","Zálešák","Zamazal","Zámečník","Zaoral","Zapletal","Zápotocký","Záruba","Zástěra","Zatloukal","Zavadil","Záveský","Zavřel","Zbořil","Zbranek","Zdeněk","Zdráhal","Zdražil","Zedníček","Zedník","Zejda","Zelenka","Zelený","Zelinka","Zeman","Zemánek","Zemek","Zezula","Zezulka","Zhang","Ziegler","Zich","Zicha","Zika","Zíka","Zikmund","Zima","Zíma","Zimmermann","Zítek","Zítka","Zlámal","Zmeškal","Znamenáček","Zoubek","Zouhar","Zvěřina","Zvolánek","Zvoníček","Zýka","Žabka","Žáček","Žák","Žaloudek","Žalud","Žampach","Žďárský","Železný","Ženíšek","Židek","Žídek","Žiga","Žilka","Živný","Žižka","Žůrek"};
+
+        Osoba[] ludia = new Osoba[pocet];
+        for(int i = 0;i<pocet;i++){
+            Osoba osoba = new Osoba(i,vyberNahodnyPrvok(mena),vyberNahodnyPrvok(priezviska));
+            ludia[i]=osoba;
+        }
+
+        return ludia;
+
+    }
+
+    private String vyberNahodnyPrvok(String [] pole){
+        Random rand= new Random();
+        return pole[rand.nextInt(pole.length)];
+    }
+
+    public void generujLudiDoDatabazy(int pocet, SQLiteDatabase db) {
+        if(pocet<1)return;
+        Osoba []ludia = generatorLudi(pocet);
+        try {
+
+            db.beginTransaction();
+            String sql = "INSERT INTO osoby (meno, priezvisko) VALUES (?, ?)";
+            SQLiteStatement stm = db.compileStatement(sql);
+
+            for (Osoba osoba : ludia) {
+                addOsoba(osoba,db);
+            }
+
+            db.setTransactionSuccessful();
+
+        }catch(Exception e) {
+            Log.w("exception",e);
+        }finally {
+            db.endTransaction();
+        }
+    }
+
+    private void addOsoba(Osoba osoba, SQLiteDatabase db) {
+        if(osoba==null)return;
+
+        String sql = "INSERT INTO osoby (meno, priezvisko) VALUES (?, ?)";
+        SQLiteStatement stm = db.compileStatement(sql);
+
+        stm.clearBindings();
+        stm.bindString(1,osoba.getMeno());
+        stm.bindString(2,osoba.getPriezvisko());
+        long rowid = stm.executeInsert();
+    }
+//METODA NA 5 SEKUND
+    Osoba[] ukazMiLudi(){
+            Osoba[] ludia = new Osoba[15] ;
+        for(int i = 1 ; i < 15 ; i++){
+            ludia[i] = getOsoba(i);
+            System.out.println(i);
+        }
+        return ludia;
+    }
+
+    Osoba getOsoba(int id){
+
+        SQLiteDatabase db = getWritableDatabase();
+        String[] stlpce = {MyContract.Osoba.COL_MENO,MyContract.Osoba.COL_PRIEZVISKO};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+
+        Cursor c = db.query(MyContract.Osoba.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+        Osoba osoba = new Osoba(id,
+                c.getString( c.getColumnIndex(MyContract.Osoba.COL_MENO)),
+                c.getString( c.getColumnIndex(MyContract.Osoba.COL_PRIEZVISKO)));
+        c.close();
+
+        return osoba;
+    }
+
+
+
+}
