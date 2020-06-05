@@ -11,6 +11,8 @@ public class Ucitel extends Osoba {
 
     }
 
+
+
     public void addPredmet(UcitelovPredmet predmet){
         predmety.add(predmet);
     }

@@ -22,7 +22,11 @@ class Ziak extends Osoba{
         hodnotenia.set(pozicia,hodnotenie);
     }
 
+    public double getHodnotenie(int i){
+        return hodnotenia.get(i);
+    }
     public void removeHodnotenie(int pozicia){
+
         hodnotenia.remove(pozicia);
     }
 

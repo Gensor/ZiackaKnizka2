@@ -26,19 +26,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         databaza = new DBhelper(this);
 
-        //test
-           Osoba[] ludia =databaza.ukazMiLudi();
-           ArrayList<Osoba> ludia2 =new ArrayList<>();
-        for (Osoba os:ludia) {
-            if(os!=null)ludia2.add(os);
-        }
-        for (Osoba os:ludia2) {
-            System.out.println(os);
-        }
-        //testkoniec
-            ArrayAdapter<Osoba> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ludia2);//test
-            ListView listView = findViewById(R.id.listView_uvod_predmety);
-            listView.setAdapter(adapter);
+
+        //   ArrayAdapter<Osoba> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ludia2);//test
+        //    ListView listView = findViewById(R.id.listView_uvod_predmety);
+        //  listView.setAdapter(adapter);
 
     }
 
