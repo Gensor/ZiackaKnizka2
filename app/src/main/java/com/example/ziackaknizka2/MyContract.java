@@ -10,7 +10,6 @@ final class MyContract {
     static class Ucitel{
         static final String TABLE_NAME = "ucitelia";
         static final String COL_OSOBA = "osoba";
-        static final String COL_UCITELOV_PREDMET = "ucitelov_predmet";
     }
     static class Ziak{
         static final String TABLE_NAME = "ziaci";
@@ -26,6 +25,7 @@ final class MyContract {
     }
     static class UcitelovPredmet{
         static final String TABLE_NAME = "ucitelove_predmety";
+        static final String COL_UCITEL = "ucitel";
         static final String COL_PREDMET = "predmet";
         static final String COL_TRIEDA = "trieda";
         static final String COL_ZIAK = "ziak";

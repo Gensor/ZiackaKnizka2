@@ -10,9 +10,9 @@ import android.util.Log;
 import java.util.Random;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "ziackaKnizka.db";
-
+    SQLiteDatabase db = getWritableDatabase();
 
 
 
@@ -23,6 +23,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        this.db=db;
     //na id pouzivam ROWID
         String sqlCreate_osoba = "CREATE TABLE " +
                 MyContract.Osoba.TABLE_NAME + " ( " +
@@ -31,8 +32,7 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL(sqlCreate_osoba);
         String sqlCreate_ucitelia = "CREATE TABLE " +
                 MyContract.Ucitel.TABLE_NAME + " ( " +
-                MyContract.Ucitel.COL_OSOBA + " text not null, " +
-                MyContract.Ucitel.COL_UCITELOV_PREDMET + " int not null ) ";
+                MyContract.Ucitel.COL_OSOBA + " text not null ) ";
         db.execSQL(sqlCreate_ucitelia);
         String sqlCreate_ziaci = "CREATE TABLE " +
                 MyContract.Ziak.TABLE_NAME + " ( " +
@@ -48,18 +48,68 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL(sqlCreate_predmety);
         String sqlCreate_ucitelovePredmety = "CREATE TABLE " +
                 MyContract.UcitelovPredmet.TABLE_NAME + " ( " +
+                MyContract.UcitelovPredmet.COL_UCITEL + " int not null, " +
                 MyContract.UcitelovPredmet.COL_PREDMET + " int not null, " +
                 MyContract.UcitelovPredmet.COL_TRIEDA + " text not null, " +
                 MyContract.UcitelovPredmet.COL_ZIAK + " int not null ) ";
         db.execSQL(sqlCreate_ucitelovePredmety);
-        // asdfajhdlkfalkdsfjlaksdjflkasdjkflasjdf
-        System.out.println("vytvoril som tabulky");
-        generujLudiDoDatabazy(150,db);
+
+        generujLudiDoDatabazy(150);
+
+        generujUcitelovDoDatabazy(15);
+
+        System.out.println(" - ON-CREATE - ");
 
     }
 
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        System.out.println(" - ON-UPDATE - ");
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.UcitelovPredmet.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Ucitel.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Predmet.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Ziak.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Osoba.TABLE_NAME);
+        onCreate(db);
+
+
+    }
+    private void generujUcitelovDoDatabazy(int pocet ) {
+        if(pocet<1)return;
+        //SQLiteDatabase db = getWritableDatabase();
+        try {
+
+            db.beginTransaction();
+
+            for (int i = 1; i < pocet; i++) {
+                addUcitel(getOsoba(i));
+            }
+
+            db.setTransactionSuccessful();
+
+        }catch(Exception e) {
+            Log.w("exception",e);
+        }finally {
+            db.endTransaction();
+         //   db.close();
+        }
+    }
+
+    private void addUcitel(Osoba osoba) {
+        if(osoba==null)return;
+
+//        SQLiteDatabase db = getWritableDatabase();
+
+        String sql = "INSERT INTO " +
+                MyContract.Ucitel.TABLE_NAME +
+                " (" + MyContract.Ucitel.COL_OSOBA +  ") " +
+                "VALUES (?)";
+        SQLiteStatement stm = db.compileStatement(sql);
+
+        stm.clearBindings();
+        stm.bindLong(1,osoba.getId());
+        long rowid = stm.executeInsert();
 
     }
 
@@ -87,14 +137,13 @@ public class DBhelper extends SQLiteOpenHelper {
         return pole[rand.nextInt(pole.length)];
     }
 
-    public void generujLudiDoDatabazy(int pocet, SQLiteDatabase db) {
+    public void generujLudiDoDatabazy(int pocet) {
         if(pocet<1)return;
+        //SQLiteDatabase db = getWritableDatabase();
         Osoba []ludia = generatorLudi(pocet);
         try {
 
             db.beginTransaction();
-            String sql = "INSERT INTO osoby (meno, priezvisko) VALUES (?, ?)";
-            SQLiteStatement stm = db.compileStatement(sql);
 
             for (Osoba osoba : ludia) {
                 addOsoba(osoba,db);
@@ -106,6 +155,7 @@ public class DBhelper extends SQLiteOpenHelper {
             Log.w("exception",e);
         }finally {
             db.endTransaction();
+          //  db.close();
         }
     }
 
@@ -132,7 +182,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
     Osoba getOsoba(int id){
 
-        SQLiteDatabase db = getWritableDatabase();
+      //  SQLiteDatabase db = getWritableDatabase();
         String[] stlpce = {MyContract.Osoba.COL_MENO,MyContract.Osoba.COL_PRIEZVISKO};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -143,7 +193,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 c.getString( c.getColumnIndex(MyContract.Osoba.COL_MENO)),
                 c.getString( c.getColumnIndex(MyContract.Osoba.COL_PRIEZVISKO)));
         c.close();
-
+    //    db.close();
         return osoba;
     }
 
