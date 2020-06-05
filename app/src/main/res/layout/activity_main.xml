@@ -29,7 +29,7 @@
                 android:src="@drawable/user"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView_mainActivity_menoUcitela"
                 android:layout_width="165dp"
                 android:layout_height="105dp"
                 android:layout_alignParentStart="true"
@@ -39,7 +39,7 @@
                 android:layout_marginEnd="28dp"
                 android:layout_toStartOf="@+id/imageView"
                 android:fontFamily="@font/open_sans"
-                android:text="MENO \nPRIEZVISKO"
+                android:text=""
                 android:textSize="24sp" />
         </RelativeLayout>
 

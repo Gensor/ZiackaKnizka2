@@ -11,11 +11,12 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 9;
+    private static final int DATABASE_VERSION = 13;
+
     private static final String DATABASE_NAME = "ziackaKnizka.db";
     private static final int POCET_GENEROVANYCH_LUDI = 150;
     private static final int POCET_GENEROVANYCH_UCITELOV = 15;
-    private static final int POCET_GENEROVANYCH_TRIED = 5;
+    private static final int POCET_GENEROVANYCH_TRIED = 7;
     private static final int POCET_PRIRADENYCH_PREDMETOV = 4;
     private SQLiteDatabase db = getWritableDatabase();
 
@@ -259,6 +260,21 @@ public class DBhelper extends SQLiteOpenHelper {
         return osoba;
     }
 
+    public Predmet getPredmet(int id){
+        String[] stlpce = {MyContract.Predmet.COL_NAZOV,MyContract.Predmet.COL_POPIS, MyContract.Predmet.COL_OSNOVA};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+
+        Cursor c = db.query(MyContract.Predmet.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+        Predmet predmet = new Predmet(id,
+                c.getString( c.getColumnIndex(MyContract.Predmet.COL_NAZOV)),
+                c.getString( c.getColumnIndex(MyContract.Predmet.COL_POPIS)),
+                c.getString( c.getColumnIndex(MyContract.Predmet.COL_OSNOVA)));
+        c.close();
+        return predmet;
+    }
+
     Ucitel getUcitel(int id){
         Ucitel ucitel = null;
         if(isUcitel(id)){
@@ -276,6 +292,47 @@ public class DBhelper extends SQLiteOpenHelper {
         int count = c.getCount();
         c.close();
         return count==1;
+
+    }
+
+    UcitelovPredmet getUcitelovPredmet(int id){
+        String[] stlpce = {MyContract.UcitelovPredmet.COL_UCITEL, MyContract.UcitelovPredmet.COL_PREDMET, MyContract.UcitelovPredmet.COL_TRIEDA};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+
+        Cursor c = db.query(MyContract.UcitelovPredmet.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+        UcitelovPredmet ucitelovPredmet = new UcitelovPredmet(id,
+                (   getUcitel( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_UCITEL)))),
+                    getPredmet(c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_PREDMET))),
+                    getTrieda( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_TRIEDA))));
+        c.close();
+
+        return ucitelovPredmet;
+    }
+
+    public ArrayList<UcitelovPredmet> getVsetkyUcitelovePredmety(Ucitel ucitel){
+        ArrayList<UcitelovPredmet> predmety = new ArrayList<>();
+
+        String[] stlpce = {"rowid",MyContract.UcitelovPredmet.COL_UCITEL, MyContract.UcitelovPredmet.COL_PREDMET, MyContract.UcitelovPredmet.COL_TRIEDA};
+        String selection = MyContract.UcitelovPredmet.COL_UCITEL+"=?";
+        String[] selectionArgs = {""+ucitel.getId()};
+
+        Cursor c = db.query(MyContract.UcitelovPredmet.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        if(c.moveToFirst()){
+            do{
+                UcitelovPredmet ucitelovPredmet = new UcitelovPredmet(
+                        c.getInt(0),
+                        getUcitel( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_UCITEL))),
+                        getPredmet(c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_PREDMET))),
+                        getTrieda( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_TRIEDA))));
+                predmety.add(ucitelovPredmet);
+            }while (c.moveToNext());
+        }
+
+        c.close();
+
+        return predmety;
 
     }
 
@@ -400,7 +457,7 @@ public class DBhelper extends SQLiteOpenHelper {
         for(int i = 1; i<=POCET_GENEROVANYCH_LUDI; i++){
             if(!isUcitel(i)){
 
-                Trieda trieda = getTrieda(i%POCET_GENEROVANYCH_TRIED);
+                Trieda trieda = getTrieda((i%POCET_GENEROVANYCH_TRIED)+1);
                 addZiak(getOsoba(i),  "zapocet 1",18.5, trieda);
 
             }
@@ -410,7 +467,7 @@ public class DBhelper extends SQLiteOpenHelper {
     private void generujTriedy(int pocet) {
 
         for(int i = 1; i<=pocet; i++){
-            String nazov = "XEF_"+(i%pocet);
+            String nazov = "TR_"+((i%pocet)+1);
             Trieda trieda = new Trieda(i,nazov);
             addTrieda(trieda);
         }
@@ -437,7 +494,7 @@ public class DBhelper extends SQLiteOpenHelper {
     private void generujPredmety() {
 
         addPredmet(new Predmet(1,"Vývoj aplikácií pre iOS" , "Študent efektívne využíva prostredie pre vývoj mobilných aplikácií pre iOS. Študent pozná situácie a techniky typické pre tvorbu mobilných aplikácií pre iOS. Študent dokáže využívaťGUI komponenty prostredia a jazyk Swift pri tvorbe vlastných aplikácií. Študent dokáže využívať grafiku, animáciu a spracovanie dotykov pri grafických aplikáciách. Študent dokáže vytvoriť komplexnú mobilnú aplikáciu využívajúcu všetky potrebné komunikačné rozhrania v operačnom systéme iOS. Študent je schopný samostatne vytvoriť komplexnú aplikáciu pre zariadenia s iOS.","1. Swift. Základné riadiace a údajové štruktúry. 2. Úvod do iOS 3. MVC architektúra 4. Pokročilé prvky jazyka Swift 5. Grafika 6. Spracovanie dotykov a multitouch 7. Časovač a animácia 8. Multithreading a autolayout 9. Drag&drop 10. Vybrané komponenty prostredia" ));
-        addPredmet(new Predmet(2," Úvod do modelovania a simulácie","VV1: Študent získava vedomosti o základných typoch modelov v oblasti prírodných vied. VV2: Študent porozumie základným vlastnostiam uvedených modelov. VV3: Študent analyzuje získané vedomosti o jednotlivých modeloch. VV4: Študent aplikuje naučené vedomosti do oblasti modelovania a simulácie.","1. Základné pojmy 2. Diskrétne systémy: Markovove náhodne procesy a ich vlastnosti Systémy hromadnej obsluhy (SHO) a ich klasifikácia Kolmogorovove diferenciálne rovnice na analytické riešenie SHO Popis a riešenie rôznych typov systémov hromadnej obsluhy Siete systémov hromadnej obsluhy a ich analytické riešenie Metódy generovania náhodných čísel Metóda Monte Carlo a jej aplikácie Jazyky na simuláciu diskrétnych systémov Počítačová simulácia diskrétnych systémov. 3. Spojité systémy: Popis spojitých systémov, matematické modely spojitých systémov a ich tvorba Jazyky na simuláciu spojitých systémov (Simulink) Počítačová simulácia spojitých systémov."));
+        addPredmet(new Predmet(2,"Úvod do modelovania a simulácie","VV1: Študent získava vedomosti o základných typoch modelov v oblasti prírodných vied. VV2: Študent porozumie základným vlastnostiam uvedených modelov. VV3: Študent analyzuje získané vedomosti o jednotlivých modeloch. VV4: Študent aplikuje naučené vedomosti do oblasti modelovania a simulácie.","1. Základné pojmy 2. Diskrétne systémy: Markovove náhodne procesy a ich vlastnosti Systémy hromadnej obsluhy (SHO) a ich klasifikácia Kolmogorovove diferenciálne rovnice na analytické riešenie SHO Popis a riešenie rôznych typov systémov hromadnej obsluhy Siete systémov hromadnej obsluhy a ich analytické riešenie Metódy generovania náhodných čísel Metóda Monte Carlo a jej aplikácie Jazyky na simuláciu diskrétnych systémov Počítačová simulácia diskrétnych systémov. 3. Spojité systémy: Popis spojitých systémov, matematické modely spojitých systémov a ich tvorba Jazyky na simuláciu spojitých systémov (Simulink) Počítačová simulácia spojitých systémov."));
         addPredmet(new Predmet(3,"Umelá inteligencia","Cieľom predmetu je vysvetliť pojmy, postupy a zameranie výskumu umelej inteligencie tak, aby poslucháči získali orientáciu v tejto modernej a prudko sa rozvíjajúcej oblasti, nadobudli predstavu o jej teoretických základoch i o aplikačnom aspekte a získali základnú zručnosť pri riešení typických príkladov z danej oblasti.","1. Umelá inteligencia ako vedný odbor, základné smery výskumu, poznatky ako predmet výskumu. 2. Riešenie problémov, informatívne a neinformatívne hľadanie, heuristika 3. Herné problémy, riešenie hier o dvoch hráčov, MinMax a jeho modifikácie. 4. Reprezentácia problémov stavovým priestorom, metódy prehľadávania, pojem heuristiky. Informované a neinformované metódy prehľadávania, typické problémy z tejto oblasti. 5. Pravidlové systémy, ich architektúra, inferenčný mechanizmus, stratégie inferencie, aplikácia pravidlových systémov. 6. Aplikačné výstupy umelej inteligencie, možné smery jej ďalšieho rozvoja. 7. Strojové učenie, bifľovanie, induktívne učenie sa, Naivný Bayesovský klasifikátor. 8. Strojové učenie, regresia, metóda najmenších štvorcov, problém preučenia sa. 9. Vnímanie, rozpoznávanie vzorov, rozpoznávanie textu, extrakcia príznakov. 10. Plánovanie, hľadanie riešenia vs. plánovanie, strips, reprezentácia akcií. 11. Úvod do neurónových sietí, perceptrón. 12. Programovanie v jazyku Prolog."));
         addPredmet(new Predmet(4,"Počítačové siete ","",""));
         addPredmet(new Predmet(5,"Počítačová grafika (KI/PG) ","",""));

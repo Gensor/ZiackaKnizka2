@@ -3,15 +3,17 @@ package com.example.ziackaknizka2;
 import java.util.ArrayList;
 
 public class UcitelovPredmet  {
-
+    private int id;
+    private Ucitel ucitel;
     private Predmet predmet;
-    private String nazovTriedy;
+    private Trieda trieda;
     private ArrayList<Ziak> ziaci;
 
-    public UcitelovPredmet(Predmet predmet,String trieda) {
-
+    public UcitelovPredmet(int id, Ucitel ucitel, Predmet predmet,Trieda trieda) {
+        this.id = id;
+        this.ucitel = ucitel;
         this.predmet = predmet;
-        this.nazovTriedy = trieda;
+        this.trieda = trieda;
         this.ziaci = new ArrayList<>();
     }
 
@@ -21,6 +23,6 @@ public class UcitelovPredmet  {
 
     @Override
     public String toString() {
-        return predmet.getNazov()+" "+nazovTriedy;
+        return trieda.getNazov()+": "+predmet.getNazov();
     }
 }
