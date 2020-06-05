@@ -13,12 +13,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     DBhelper databaza ;
+
+    private Ucitel ucitel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -26,10 +29,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         databaza = new DBhelper(this);
 
+        ucitel = databaza.getUcitel(1);
 
-        //   ArrayAdapter<Osoba> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ludia2);//test
-        //    ListView listView = findViewById(R.id.listView_uvod_predmety);
-        //  listView.setAdapter(adapter);
+        TextView menoUcitela = findViewById(R.id.textView_mainActivity_menoUcitela);
+        menoUcitela.setText(ucitel.toString());
+        ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
+
+        ArrayAdapter<UcitelovPredmet> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,predmety);
+        ListView listView = findViewById(R.id.listView_uvod_predmety);
+        listView.setAdapter(adapter);
 
     }
 
