@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         menoUcitela.setText(ucitel.toString());
         ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
 
+
         ArrayAdapter<UcitelovPredmet> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,predmety);
         ListView listView = findViewById(R.id.listView_uvod_predmety);
         listView.setAdapter(adapter);
