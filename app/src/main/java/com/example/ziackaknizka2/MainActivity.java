@@ -65,4 +65,13 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         ukazPredmetyvListe(ucitel);
     }
+
+    public void zmazPredmet(View view) {
+        ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
+        Intent intent = new Intent(this,ZmazPredmet.class);
+        System.out.println(predmety.get(1));
+        intent.putExtra("predmety",predmety);
+        startActivity(intent);
+
+    }
 }

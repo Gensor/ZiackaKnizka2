@@ -1,25 +1,57 @@
 package com.example.ziackaknizka2;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
-public class UcitelovPredmet  {
+public class UcitelovPredmet  implements Parcelable {
     private int id;
     private Ucitel ucitel;
     private Predmet predmet;
     private Trieda trieda;
-    private ArrayList<Ziak> ziaci;
 
     public UcitelovPredmet(int id, Ucitel ucitel, Predmet predmet,Trieda trieda) {
         this.id = id;
         this.ucitel = ucitel;
         this.predmet = predmet;
         this.trieda = trieda;
-        this.ziaci = new ArrayList<>();
     }
 
-    public void addZiak(Ziak ziak){
-        ziaci.add(ziak);
+    protected UcitelovPredmet(Parcel in) {
+        id = in.readInt();
+        ucitel = in.readParcelable(Ucitel.class.getClassLoader());
+        predmet = in.readParcelable(Predmet.class.getClassLoader());
+        trieda = in.readParcelable(Trieda.class.getClassLoader());
+
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeParcelable(ucitel, flags);
+        dest.writeParcelable(predmet, flags);
+        dest.writeParcelable(trieda, flags);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<UcitelovPredmet> CREATOR = new Creator<UcitelovPredmet>() {
+        @Override
+        public UcitelovPredmet createFromParcel(Parcel in) {
+            return new UcitelovPredmet(in);
+        }
+
+        @Override
+        public UcitelovPredmet[] newArray(int size) {
+            return new UcitelovPredmet[size];
+        }
+    };
+
+
 
     public int getId() {
         return id;
@@ -53,16 +85,14 @@ public class UcitelovPredmet  {
         this.trieda = trieda;
     }
 
-    public ArrayList<Ziak> getZiaci() {
-        return ziaci;
-    }
 
-    public void setZiaci(ArrayList<Ziak> ziaci) {
-        this.ziaci = ziaci;
-    }
+
+
 
     @Override
     public String toString() {
         return trieda.getNazov()+": "+predmet.getNazov();
     }
+
+
 }

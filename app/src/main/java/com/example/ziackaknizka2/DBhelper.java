@@ -348,7 +348,10 @@ public class DBhelper extends SQLiteOpenHelper {
                         getUcitel( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_UCITEL))),
                         getPredmet(c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_PREDMET))),
                         getTrieda( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_TRIEDA))));
-                predmety.add(ucitelovPredmet);
+
+                if(ucitelovPredmet!=null) {
+                    predmety.add(ucitelovPredmet);
+                }
             }while (c.moveToNext());
         }
 
