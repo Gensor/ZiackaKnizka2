@@ -85,6 +85,7 @@
                 android:adjustViewBounds="true"
                 android:background="#FFFFFF"
                 android:scaleType="fitCenter"
+                android:onClick="pridajPredmet"
                 android:src="@drawable/add2" />
         </RelativeLayout>
     </LinearLayout>

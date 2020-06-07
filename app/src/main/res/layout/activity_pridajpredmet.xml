@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.6"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="303dp">
+
+        <TextView
+            android:id="@+id/pridajPredmet_predmety"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="30dp"
+            android:text="Predmety: "
+            android:layout_marginRight="60dp"
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_predmety"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pridajPredmet_predmety"
+            android:layout_marginTop="10dp"
+            android:background="#EBEDFD"
+            android:backgroundTint="#EBEDFD"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="0.2"
+                app:srcCompat="@drawable/predmet" />
+
+            <Spinner
+                android:id="@+id/spinner_predmety"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="30dp"
+                android:background="#FFFFFF"
+                android:layout_weight="0.8"
+                android:textAlignment="textStart" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/pridajPredmet_triedy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginRight="60dp"
+            android:layout_below="@+id/layout_predmety"
+            android:layout_marginTop="40dp"
+            android:text="Triedy: "
+            android:textAlignment="textEnd"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:id="@+id/layout_triedy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/pridajPredmet_triedy"
+            android:layout_marginTop="10dp"
+            android:background="#EBEDFD"
+            android:backgroundTint="#EBEDFD"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_weight="0.2"
+                app:srcCompat="@drawable/trieda" />
+
+            <Spinner
+                android:id="@+id/spinner_triedy"
+                android:layout_width="200dp"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="30dp"
+                android:layout_weight="0.8"
+                android:background="#FFFFFF"
+                android:paddingVertical="10dp"
+                android:textAlignment="gravity" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/imageButton"
+
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+
+            android:layout_below="@+id/layout_triedy"
+            android:layout_centerHorizontal="true"
+
+android:layout_marginTop="100dp"
+            android:layout_marginEnd="30dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
+            android:onClick="vytvorUciteloviPredmet"
+            android:scaleType="fitXY"
+            android:src="@drawable/add" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

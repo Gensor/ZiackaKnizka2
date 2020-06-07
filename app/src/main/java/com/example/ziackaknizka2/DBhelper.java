@@ -94,7 +94,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return celaZborovna;
     }
 
-    private ArrayList<Trieda> getVsetkyTriedy() {
+     ArrayList<Trieda> getVsetkyTriedy() {
 
         ArrayList<Trieda> triedy = new ArrayList<>();
         String[] stlpce = {"rowid", MyContract.Trieda.COL_NAZOV};
@@ -140,6 +140,12 @@ public class DBhelper extends SQLiteOpenHelper {
         if(ucitel==null||predmet==null||trieda==null){
             System.out.println("\n v adducitelovpredmet mi prisiel null\n");
             return;
+        }else {
+            UcitelovPredmet ucitelovPredmet = new UcitelovPredmet(654654,ucitel, predmet, trieda);
+            if(isUcitelovPredmet(ucitelovPredmet)){
+                System.out.println("taky predmet ucitel ma s touto triedou");
+                return;
+            }
         }
 
         int id_ucitel = ucitel.getId();
@@ -158,6 +164,22 @@ public class DBhelper extends SQLiteOpenHelper {
         stm.bindLong(2,id_predmet);
         stm.bindLong(3,id_trieda);
         long rowid = stm.executeInsert();
+
+    }
+
+    boolean isUcitelovPredmet(UcitelovPredmet ucitelovPredmet){
+
+        String sqlQuery = "SELECT * FROM " + MyContract.UcitelovPredmet.TABLE_NAME +
+                " WHERE "+ MyContract.UcitelovPredmet.COL_UCITEL +" = ? AND " +
+                MyContract.UcitelovPredmet.COL_PREDMET + " = ? AND " +
+                MyContract.UcitelovPredmet.COL_TRIEDA + " = ?";
+        String[] selectionArgs = {""+ucitelovPredmet.getUcitel().getId(),""+ucitelovPredmet.getPredmet().getId(),""+ucitelovPredmet.getTrieda().getID()};
+        Cursor c = db.rawQuery(sqlQuery, selectionArgs);
+        int count = c.getCount();
+        c.close();
+
+        if(count>1) System.out.println("CHYBA : mas v db duplicitu");
+        return count>=1;
 
     }
 
@@ -202,7 +224,7 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
-    private void addZiak(Osoba osoba, String hodnotenie_nazov, double vysledok, Trieda trieda){
+     void addZiak(Osoba osoba, String hodnotenie_nazov, double vysledok, Trieda trieda){
         if(osoba==null){
             System.out.println("chyba pri vkladani ziaka");
             return;
