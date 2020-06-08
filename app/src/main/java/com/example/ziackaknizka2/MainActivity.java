@@ -2,26 +2,16 @@ package com.example.ziackaknizka2;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-import java.util.Arrays;
+
 
 public class MainActivity extends AppCompatActivity {
-    static final int ZAPNI_PRIDAJPREDMET_ACTIVITY = 1;
-    DBhelper databaza ;
+    private DBhelper databaza ;
     private Ucitel ucitel;
 
     @Override
@@ -63,13 +53,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        //TODO: zmena ucitela po kliknuti na jeho meno
+        ucitel=databaza.getUcitel(1);
         ukazPredmetyvListe(ucitel);
     }
 
     public void zmazPredmet(View view) {
         ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
         Intent intent = new Intent(this,ZmazPredmet.class);
-        System.out.println(predmety.get(1));
         intent.putExtra("predmety",predmety);
         startActivity(intent);
 

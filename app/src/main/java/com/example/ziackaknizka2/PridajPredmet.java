@@ -23,7 +23,7 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        //TODO: neskor sprav grafiku
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pridajpredmet);
         Intent intent = getIntent();
@@ -34,7 +34,7 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
         ucitel = intent.getParcelableExtra("ucitel");
 
 
-         spinner_predmety = findViewById(R.id.spinner_predmety);
+        spinner_predmety = findViewById(R.id.spinner_predmety);
         ArrayAdapter<Predmet> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, predmety);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
@@ -43,9 +43,9 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
 
          spinner_triedy = findViewById(R.id.spinner_triedy);
         ArrayAdapter<Trieda> adapter_predmety = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, triedy);
-adapter_predmety.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-spinner_triedy.setAdapter(adapter_predmety);
-spinner_triedy.setOnItemSelectedListener(this);
+        adapter_predmety.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner_triedy.setAdapter(adapter_predmety);
+        spinner_triedy.setOnItemSelectedListener(this);
 
     }
 

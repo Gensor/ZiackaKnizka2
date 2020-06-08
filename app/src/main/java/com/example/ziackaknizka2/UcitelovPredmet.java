@@ -3,7 +3,6 @@ package com.example.ziackaknizka2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.ArrayList;
 
 public class UcitelovPredmet  implements Parcelable {
     private int id;

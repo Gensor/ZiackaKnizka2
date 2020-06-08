@@ -182,6 +182,9 @@ public class DBhelper extends SQLiteOpenHelper {
         return count>=1;
 
     }
+    public void deleteUcitelovPredmet(UcitelovPredmet predmet) {
+        db.delete(MyContract.UcitelovPredmet.TABLE_NAME,"rowid = "+predmet.getId(),null);
+    }
 
     public void addOsoba(Osoba osoba) {
         if(osoba==null)return;
