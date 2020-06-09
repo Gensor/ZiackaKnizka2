@@ -14,8 +14,6 @@ final class MyContract {
     static class Ziak{
         static final String TABLE_NAME = "ziaci";
         static final String COL_OSOBA = "osoba";
-        static final String COL_HODNOTENIE = "hodnotenie";
-        static final String COL_HODNOTENIE_NAZOV = "nazov_hodnotenia";
         static final String COL_TRIEDA = "trieda";
 
     }
@@ -31,8 +29,16 @@ final class MyContract {
         static final String COL_PREDMET = "predmet";
         static final String COL_TRIEDA = "trieda";
     }
-        static class Trieda{
-            static final String TABLE_NAME = "triedy";
-            static final String COL_NAZOV = "nazov";
+    static class Trieda{
+        static final String TABLE_NAME = "triedy";
+        static final String COL_NAZOV = "nazov";
+    }
+    static class Hodnotenie{
+        static final String TABLE_NAME = "hodnotenie";
+        static final String COL_NAZOV = "nazov";
+        static final String COL_BODY = "body";
+        static final String COL_UCITELOVPREDMET = "ucitelov_predmet";
+        static final String COL_ZIAK = "ziak";
+
     }
 }

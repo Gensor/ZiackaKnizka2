@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 13;
+    private static final int DATABASE_VERSION = 14;
 
     private static final String DATABASE_NAME = "ziackaKnizka.db";
     private static final int POCET_GENEROVANYCH_LUDI = 150;
@@ -48,8 +48,6 @@ public class DBhelper extends SQLiteOpenHelper {
         String sqlCreate_ziaci = "CREATE TABLE " +
                 MyContract.Ziak.TABLE_NAME + " ( " +
                 MyContract.Ziak.COL_OSOBA + " int not null, " +
-                MyContract.Ziak.COL_HODNOTENIE + " real not null, " +
-                MyContract.Ziak.COL_HODNOTENIE_NAZOV + " text not null, " +
                 MyContract.Ziak.COL_TRIEDA + " int not null) ";
         db.execSQL(sqlCreate_ziaci);
         String sqlCreate_predmety = "CREATE TABLE " +
@@ -64,6 +62,13 @@ public class DBhelper extends SQLiteOpenHelper {
                 MyContract.UcitelovPredmet.COL_PREDMET + " int not null, " +
                 MyContract.UcitelovPredmet.COL_TRIEDA + " text not null) ";
         db.execSQL(sqlCreate_ucitelovePredmety);
+        String sqlCreate_hodnotenie = "CREATE TABLE " +
+                MyContract.Hodnotenie.TABLE_NAME + " ( " +
+                MyContract.Hodnotenie.COL_NAZOV + " text not null, " +
+                MyContract.Hodnotenie.COL_BODY + " int not null, " +
+                MyContract.Hodnotenie.COL_UCITELOVPREDMET + " int not null, " +
+                MyContract.Hodnotenie.COL_ZIAK +" int not null) ";
+        db.execSQL(sqlCreate_hodnotenie);
 
         generujDatabazu();
     }
@@ -77,13 +82,14 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Ziak.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Osoba.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Trieda.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Hodnotenie.TABLE_NAME);
         onCreate(db);
     }
 
 
 
 
-    public ArrayList<Ucitel> getVsetkychUcitelov(){
+   private ArrayList<Ucitel> getVsetkychUcitelov(){
 
         ArrayList<Ucitel> celaZborovna = new ArrayList<>();
 
@@ -227,7 +233,7 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
-     void addZiak(Osoba osoba, String hodnotenie_nazov, double vysledok, Trieda trieda){
+     void addZiak(Osoba osoba, Trieda trieda){
         if(osoba==null){
             System.out.println("chyba pri vkladani ziaka");
             return;
@@ -237,17 +243,13 @@ public class DBhelper extends SQLiteOpenHelper {
         String sql = "INSERT INTO " +
                 MyContract.Ziak.TABLE_NAME +
                 " (" + MyContract.Ziak.COL_OSOBA +  ", " +
-                MyContract.Ziak.COL_HODNOTENIE+ ", " +
-                MyContract.Ziak.COL_HODNOTENIE_NAZOV +", " +
                 MyContract.Ziak.COL_TRIEDA +") " +
-                "VALUES (?, ?, ?, ?)";
+                "VALUES (?, ?)";
         SQLiteStatement stm = db.compileStatement(sql);
 
         stm.clearBindings();
         stm.bindLong(1,osoba.getId());
-        stm.bindDouble(2,vysledok);
-        stm.bindString(3,hodnotenie_nazov);
-        stm.bindLong(4,trieda.getID());
+        stm.bindLong(2,trieda.getID());
         long rowid = stm.executeInsert();
     }
 
@@ -378,6 +380,46 @@ public class DBhelper extends SQLiteOpenHelper {
 
         return trieda;
     }
+    public ArrayList<Ziak> getZiakov(Trieda trieda){
+
+        ArrayList<Ziak> ziaci = new ArrayList<>();
+        String[] stlpce = {"rowid", MyContract.Ziak.COL_OSOBA};
+        String selection = MyContract.Ziak.COL_TRIEDA+"=?";
+        String[] args = {""+trieda.getID()};
+
+        Cursor c = db.query(MyContract.Ziak.TABLE_NAME,stlpce,selection,args,null,null,null);
+        if(c.moveToFirst()){
+            do{
+               int id = c.getInt(0);
+               Osoba osoba = getOsoba(c.getInt(c.getColumnIndex(MyContract.Ziak.COL_OSOBA)));
+                Ziak ziak= new Ziak(id,osoba.getMeno(),osoba.getPriezvisko(),trieda);
+                ziaci.add(ziak);
+            }while(c.moveToNext());
+        }
+        c.close();
+        return ziaci;
+
+    }
+
+    public Ziak getZiak(int id){
+
+        String[] stlpce = { MyContract.Ziak.COL_TRIEDA};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+        Osoba osoba = getOsoba(id);
+
+        Cursor c = db.query(MyContract.Ziak.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+
+        Ziak ziak = new Ziak(id,
+                osoba.getMeno(),
+                osoba.getPriezvisko(),
+                getTrieda(c.getInt( c.getColumnIndex(MyContract.Ziak.COL_TRIEDA))));
+        c.close();
+
+        return ziak;
+
+    }
 
 
     public int getVelkostTabulky(String nazovTabulky){
@@ -486,7 +528,7 @@ public class DBhelper extends SQLiteOpenHelper {
             if(!isUcitel(i)){
 
                 Trieda trieda = getTrieda((i%POCET_GENEROVANYCH_TRIED)+1);
-                addZiak(getOsoba(i),  "zapocet 1",18.5, trieda);
+                addZiak(getOsoba(i),   trieda);
 
             }
         }

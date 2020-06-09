@@ -65,7 +65,7 @@ DBhelper databaza;
         };
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("Naozaj chces zmazat\n"+predmet+" ?").setPositiveButton("ano", clickListener)
+        builder.setMessage("Naozaj si chces zmazat\n"+predmet+" ?").setPositiveButton("ano", clickListener)
                 .setNegativeButton("nie", clickListener).show();
 
     }
