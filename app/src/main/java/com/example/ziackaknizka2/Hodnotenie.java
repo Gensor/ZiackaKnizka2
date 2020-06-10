@@ -1,23 +1,59 @@
 package com.example.ziackaknizka2;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.TextView;
+public class Hodnotenie {
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+    int id;
+    String nazov;
+    int body;
+    UcitelovPredmet predmet;
+    Ziak ziak;
 
-public class Hodnotenie extends AppCompatActivity {
-    TextView meno_priezvisko;
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hodnotenie);
+    public Hodnotenie(int id, String nazov, int body, UcitelovPredmet predmet, Ziak ziak) {
+        this.id = id;
+        this.nazov = nazov;
+        this.body = body;
+        this.predmet = predmet;
+        this.ziak = ziak;
+    }
 
-        Intent intent = getIntent();
-        Ziak ziak = intent.getParcelableExtra("ziak");
-        meno_priezvisko = findViewById(R.id.textView_hodnotenie_menopriezvisko);
-        meno_priezvisko.setText(ziak.toString());
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNazov() {
+        return nazov;
+    }
+
+    public void setNazov(String nazov) {
+        this.nazov = nazov;
+    }
+
+    public int getBody() {
+        return body;
+    }
+
+    public void setBody(int body) {
+        this.body = body;
+    }
+
+    public UcitelovPredmet getPredmet() {
+        return predmet;
+    }
+
+    public void setPredmet(UcitelovPredmet predmet) {
+        this.predmet = predmet;
+    }
+
+    public Ziak getZiak() {
+        return ziak;
+    }
+
+    public void setZiak(Ziak ziak) {
+        this.ziak = ziak;
     }
 }

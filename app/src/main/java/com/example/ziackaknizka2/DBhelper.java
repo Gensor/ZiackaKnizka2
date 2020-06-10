@@ -233,6 +233,75 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
+    public void addHodnotenie(Hodnotenie hodnotenie){
+        if(hodnotenie==null){
+            System.out.println("chyba pri vkladani hodnotenia do DB");
+            return;
+        }
+
+        String sql = "INSERT INTO "+ MyContract.Hodnotenie.TABLE_NAME +" (" +
+                MyContract.Hodnotenie.COL_NAZOV+ ", " +
+                MyContract.Hodnotenie.COL_BODY +", " +
+                MyContract.Hodnotenie.COL_UCITELOVPREDMET +", " +
+                MyContract.Hodnotenie.COL_ZIAK +")" +
+                " VALUES (?,?,?,?)";
+        SQLiteStatement stm = db.compileStatement(sql);
+
+        stm.clearBindings();
+        stm.bindString(1,hodnotenie.getNazov());
+        stm.bindLong(2,hodnotenie.getBody());
+        stm.bindLong(3,hodnotenie.getPredmet().getId());
+        stm.bindLong(4,hodnotenie.getZiak().getId());
+        long rowid = stm.executeInsert();
+
+
+    }
+
+    public Hodnotenie getHodnotenie(int id){
+
+        String[] stlpce = { "rowid",MyContract.Hodnotenie.COL_NAZOV, MyContract.Hodnotenie.COL_BODY, MyContract.Hodnotenie.COL_UCITELOVPREDMET, MyContract.Hodnotenie.COL_ZIAK};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+
+        Cursor c = db.query(MyContract.Hodnotenie.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+
+        Hodnotenie hodnotenie = new Hodnotenie(id,
+                c.getString(c.getColumnIndex(MyContract.Hodnotenie.COL_NAZOV)),
+                c.getInt(c.getColumnIndex(MyContract.Hodnotenie.COL_BODY)),
+                getUcitelovPredmet(c.getInt(c.getColumnIndex(MyContract.Hodnotenie.COL_UCITELOVPREDMET))),
+                getZiak(c.getInt(c.getColumnIndex(MyContract.Hodnotenie.COL_ZIAK)))
+                );
+        c.close();
+
+        return hodnotenie;
+
+    }
+
+    public ArrayList<Hodnotenie> getVsetkyHodnotenia(UcitelovPredmet predmet, Ziak ziak){
+        ArrayList<Hodnotenie> vsetkyHodnotenia = new ArrayList<>();
+
+        String[] stlpce = {"rowid", MyContract.Hodnotenie.COL_UCITELOVPREDMET, MyContract.Hodnotenie.COL_ZIAK};
+        String selection = MyContract.Hodnotenie.COL_UCITELOVPREDMET +"=? AND "+ MyContract.Hodnotenie.COL_ZIAK+"=?";
+        String[] selectionArgs = {""+predmet.getId(),""+ziak.getId()};
+
+        Cursor c = db.query(MyContract.Hodnotenie.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        if(c.moveToFirst()){
+            do{
+                Hodnotenie hodnotenie = getHodnotenie(c.getInt(0));
+
+                if(hodnotenie!=null) {
+                    vsetkyHodnotenia.add(hodnotenie);
+                }
+            }while (c.moveToNext());
+        }
+
+        c.close();
+
+        return vsetkyHodnotenia;
+
+    }
+
      void addZiak(Osoba osoba, Trieda trieda){
         if(osoba==null){
             System.out.println("chyba pri vkladani ziaka");

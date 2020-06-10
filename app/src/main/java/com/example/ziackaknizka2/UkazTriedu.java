@@ -39,7 +39,7 @@ public class UkazTriedu extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent2 = new Intent(UkazTriedu.this,Hodnotenie.class);
+                Intent intent2 = new Intent(UkazTriedu.this, Znamkuj.class);
                 intent2.putExtra("predmet",predmet);
                 System.out.println(ziaci.get(position).getTrieda());
                 intent2.putExtra("ziak",ziaci.get(position));
