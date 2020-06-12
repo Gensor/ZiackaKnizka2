@@ -9,29 +9,44 @@
         android:id="@+id/textView_hodnotenieRiadok_nazovHodnotenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_weight="0.6"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textColor="#BA000000"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/textView_hodnotenieRiadok_bodyHodnotenia"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
         android:layout_weight="0.1"
-        android:text="TextView" />
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        android:textColor="@color/design_default_color_on_secondary"
+        android:textSize="20sp" />
 
     <ImageButton
         android:id="@+id/imageButton_hodnotenieRiadok_uprav"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="fitXY"
+        android:textAlignment="center"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
         android:id="@+id/imageButton_hodnotenieRiadok_zmaz"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_margin="5dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:backgroundTint="#00FFFFFF"
         android:scaleType="fitXY"
         app:srcCompat="@android:drawable/ic_delete" />
 </LinearLayout>

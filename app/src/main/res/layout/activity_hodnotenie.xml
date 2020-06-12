@@ -1,92 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@mipmap/znamkuj_pozadie" >
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        android:id="@+id/relativelayout_znamkuj_hlava"
+        android:layout_width="384dp"
+        android:layout_height="140dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="22dp"
+        android:layout_marginEnd="14dp"
+        android:background="@mipmap/znamkuj_hlava">
 
-        <LinearLayout
-            android:id="@+id/linearlayout_hodnotenie_meno"
-            android:layout_width="match_parent"
-            android:layout_height="147dp"
+        <TextView
+            android:id="@+id/textview_znamkuj_predmet"
+            android:layout_width="212dp"
+            android:layout_height="47dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:orientation="vertical">
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="25dp"
+            android:text="TextView"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/textView_hodnotenie_predmet"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:gravity="center"
-                android:text="TextView" />
+        <TextView
+            android:id="@+id/textView_znamkuj_meno"
+            android:layout_width="132dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="74dp"
+            android:text="TextView"
+            android:textColor="@color/meno"
+            android:textSize="16sp" />
 
-            <TextView
-                android:id="@+id/textView_hodnotenie_menopriezvisko"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="20dp"
-                android:text="TextView" />
-        </LinearLayout>
+        <TextView
+            android:id="@+id/textView_znamkuj_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginTop="101dp"
+            android:text="TextView"
+            android:textSize="20sp" />
 
-        <LinearLayout
-            android:id="@+id/linearlayout_hodnotenie_listview"
+        <Spinner
+            android:id="@+id/spinner_znamka"
+            android:layout_width="124dp"
+            android:layout_height="124dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="237dp"
+            android:layout_marginTop="10dp"
+            android:autofillHints="A"
+            android:backgroundTint="@color/znamka"
+            android:textAlignment="center" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_znamkuj_telo"
+        android:layout_width="384dp"
+        android:layout_height="300dp"
+        android:layout_below="@+id/relativelayout_znamkuj_hlava"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="10dp"
+        android:background="@mipmap/znamkuj_telo">
+
+        <ListView
+            android:id="@+id/listview_znamkuj_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@id/linearlayout_hodnotenie_pridaj"
-            android:layout_below="@+id/linearlayout_hodnotenie_meno"
             android:layout_alignParentStart="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="1dp"
-            android:orientation="vertical">
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp" />
+    </RelativeLayout>
 
-            <ListView
-                android:id="@+id/listview_hodnotenie"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="20dp" />
-        </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/relativelayout_znamkuj_spodok"
+        android:layout_width="384dp"
+        android:layout_height="217dp"
+        android:layout_below="@+id/relativelayout_znamkuj_telo"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:background="@mipmap/znamkuj_spodok">
 
-        <LinearLayout
-            android:id="@+id/linearlayout_hodnotenie_pridaj"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+        <EditText
+            android:id="@+id/editText_znamkuj_hodnotenienazov"
+            android:layout_width="196dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:orientation="horizontal">
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="94dp"
+            android:ems="10"
+            android:hint="nazov hodnotenia"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/hint" />
 
-            <EditText
-                android:id="@+id/editText_Znamkuj_nazov"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.1"
-                android:ems="10"
-                android:inputType="textPersonName" />
+        <EditText
+            android:id="@+id/editText_znamkuj_bodovanie"
+            android:layout_width="190dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="11dp"
+            android:layout_marginBottom="41dp"
+            android:ems="10"
+            android:hint="pocet bodov"
+            android:inputType="number"
+            android:textColorHint="@color/hint" />
 
-            <EditText
-                android:id="@+id/editText_Znamkuj_body"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.2"
-                android:ems="10"
-                android:inputType="number" />
-
-            <ImageButton
-                android:id="@+id/imageButton_Znamkuj_pridaj"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.9"
-                android:backgroundTint="#FFFFFF"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/add" />
-        </LinearLayout>
+        <ImageButton
+            android:id="@+id/imageButton_znamkuj_pridaj"
+            android:layout_width="123dp"
+            android:layout_height="121dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="18dp"
+            android:backgroundTint="#00FFFFFF"
+            android:scaleType="center"
+            app:srcCompat="@mipmap/imagebutton_znamkuj_pridaj" />
     </RelativeLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

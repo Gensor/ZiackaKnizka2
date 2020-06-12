@@ -1,5 +1,6 @@
 package com.example.ziackaknizka2;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -192,6 +193,10 @@ public class DBhelper extends SQLiteOpenHelper {
         db.delete(MyContract.UcitelovPredmet.TABLE_NAME,"rowid = "+predmet.getId(),null);
     }
 
+    public void deleteHodnotenie(Hodnotenie hodnotenie) {
+        db.delete(MyContract.Hodnotenie.TABLE_NAME,"rowid = "+hodnotenie.getId(),null);
+    }
+
     public void addOsoba(Osoba osoba) {
         if(osoba==null)return;
 
@@ -372,21 +377,32 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     Ucitel getUcitel(int id){
-        Ucitel ucitel = null;
-        if(isUcitel(id)){
-            Osoba osoba = getOsoba(id);
-            ucitel = new Ucitel(id,osoba.getMeno(),osoba.getPriezvisko());
-        }
+        String[] stlpce = {MyContract.Ucitel.COL_OSOBA};
+        String selection = "rowid=?";
+        String[] selectionArgs = {""+id};
+
+        Cursor c = db.query(MyContract.Ucitel.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+        Osoba osoba = getOsoba(c.getInt(c.getColumnIndex(MyContract.Ucitel.COL_OSOBA)));
+
+        Ucitel ucitel = new Ucitel(id,
+                osoba.getMeno(),
+                osoba.getPriezvisko()
+                );
+        c.close();
+
         return ucitel;
     }
-    boolean isUcitel(int id){
+    boolean isUcitel(Osoba osoba){
 
         String sqlQuery = "SELECT * FROM " + MyContract.Ucitel.TABLE_NAME +
-                " WHERE rowid = ? ";
-        String[] selectionArgs = {""+id};
+                " WHERE "+ MyContract.Ucitel.COL_OSOBA +" = ? ";
+        String[] selectionArgs = {""+osoba.getId()};
         Cursor c = db.rawQuery(sqlQuery, selectionArgs);
         int count = c.getCount();
         c.close();
+
+        if(count>1) System.out.println("mas duplicitu v uciteloch");
         return count==1;
 
     }
@@ -472,13 +488,13 @@ public class DBhelper extends SQLiteOpenHelper {
 
     public Ziak getZiak(int id){
 
-        String[] stlpce = { MyContract.Ziak.COL_TRIEDA};
+        String[] stlpce = {MyContract.Ziak.COL_OSOBA, MyContract.Ziak.COL_TRIEDA};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
-        Osoba osoba = getOsoba(id);
 
         Cursor c = db.query(MyContract.Ziak.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
         c.moveToFirst();
+        Osoba osoba = getOsoba(c.getInt(c.getColumnIndex(MyContract.Ziak.COL_OSOBA)));
 
         Ziak ziak = new Ziak(id,
                 osoba.getMeno(),
@@ -594,10 +610,11 @@ public class DBhelper extends SQLiteOpenHelper {
     private void generujZiakov(){
 
         for(int i = 1; i<=POCET_GENEROVANYCH_LUDI; i++){
-            if(!isUcitel(i)){
+            Osoba osoba = getOsoba(i);
+            if(!isUcitel(osoba)){
 
                 Trieda trieda = getTrieda((i%POCET_GENEROVANYCH_TRIED)+1);
-                addZiak(getOsoba(i),   trieda);
+                addZiak(osoba, trieda);
 
             }
         }
@@ -645,5 +662,18 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
 
+    public void upravHodnotenie(Hodnotenie hodnotenie) {
 
+        ContentValues values = new ContentValues();
+            values.put(MyContract.Hodnotenie.COL_NAZOV,hodnotenie.getNazov());
+            values.put(MyContract.Hodnotenie.COL_BODY,hodnotenie.getBody());
+
+        db.update(
+                MyContract.Hodnotenie.TABLE_NAME,
+                values,
+                "rowid = ?",
+                new String[]{""+hodnotenie.getId()}
+        );
+
+    }
 }

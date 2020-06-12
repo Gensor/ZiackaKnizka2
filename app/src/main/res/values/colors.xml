@@ -3,4 +3,7 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+    <color name="znamka">#65F96A</color>
+    <color name="hint">#707070</color>
+    <color name="meno">#BA000000</color>
 </resources>
