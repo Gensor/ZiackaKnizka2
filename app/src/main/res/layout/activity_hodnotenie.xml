@@ -24,14 +24,14 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="10dp"
             android:text="TextView"
             android:textColor="@android:color/primary_text_light_nodisable"
             android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView_znamkuj_meno"
-            android:layout_width="132dp"
+            android:layout_width="224dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -54,13 +54,12 @@
 
         <Spinner
             android:id="@+id/spinner_znamka"
-            android:layout_width="124dp"
-            android:layout_height="124dp"
+            android:layout_width="146dp"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="237dp"
-            android:layout_marginTop="10dp"
-            android:autofillHints="A"
+
             android:backgroundTint="@color/znamka"
             android:textAlignment="center" />
     </RelativeLayout>

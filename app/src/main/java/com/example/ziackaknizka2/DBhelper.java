@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 14;
+    private static final int DATABASE_VERSION = 15;
 
     private static final String DATABASE_NAME = "ziackaKnizka.db";
     private static final int POCET_GENEROVANYCH_LUDI = 150;
@@ -70,6 +70,12 @@ public class DBhelper extends SQLiteOpenHelper {
                 MyContract.Hodnotenie.COL_UCITELOVPREDMET + " int not null, " +
                 MyContract.Hodnotenie.COL_ZIAK +" int not null) ";
         db.execSQL(sqlCreate_hodnotenie);
+        String sqlCreate_znamka = "CREATE TABLE " +
+                MyContract.Znamka.TABLE_NAME + " ( " +
+                MyContract.Znamka.COL_ZIAK + " int not null, " +
+                MyContract.Znamka.COL_UCITELOVPREDMET + " int not null, " +
+                MyContract.Znamka.COL_ZNAMKA +" text not null) ";
+        db.execSQL(sqlCreate_znamka);
 
         generujDatabazu();
     }
@@ -84,6 +90,7 @@ public class DBhelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Osoba.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Trieda.TABLE_NAME);
         db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Hodnotenie.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS "+ MyContract.Znamka.TABLE_NAME);
         onCreate(db);
     }
 
@@ -260,6 +267,69 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
 
 
+    }
+
+    public void addZnamka(Znamka znamka){
+
+
+        String sql = "INSERT INTO " + MyContract.Znamka.TABLE_NAME + " ( " +
+                MyContract.Znamka.COL_ZIAK + ", " +
+                MyContract.Znamka.COL_UCITELOVPREDMET + ", " +
+                MyContract.Znamka.COL_ZNAMKA + ") " +
+            "VALUES (?, ?, ?)";
+        SQLiteStatement stm = db.compileStatement(sql);
+
+        stm.clearBindings();
+        stm.bindLong(1, znamka.getZiak().getId());
+        stm.bindLong(2, znamka.getPredmet().getId());
+        stm.bindString(3, znamka.getZnamka());
+        long rowid = stm.executeInsert();
+    }
+
+    public boolean hasZnamka(UcitelovPredmet predmet, Ziak ziak){
+        String sqlQuery = "SELECT * FROM " + MyContract.Znamka.TABLE_NAME +
+                " WHERE "+ MyContract.Znamka.COL_ZIAK +" = ? AND "
+                + MyContract.Znamka.COL_UCITELOVPREDMET+" = ?";
+        String[] selectionArgs = {""+ziak.getId(),""+predmet.getId()};
+        Cursor c = db.rawQuery(sqlQuery, selectionArgs);
+        int count = c.getCount();
+        c.close();
+
+        if(count>1) System.out.println("mas duplicitu v znamkach");
+        return count==1;
+    }
+
+    public void updateZnamka(Znamka znamka){
+        ContentValues values = new ContentValues();
+        values.put(MyContract.Znamka.COL_ZNAMKA,znamka.getZnamka());
+
+
+        db.update(
+                MyContract.Znamka.TABLE_NAME,
+                values,
+                "rowid = ?",
+                new String[]{""+znamka.getId()}
+        );
+    }
+
+    public Znamka getZnamka(Ziak ziak , UcitelovPredmet predmet){
+        String[] stlpce = { "rowid",MyContract.Znamka.COL_ZIAK,
+                                    MyContract.Znamka.COL_UCITELOVPREDMET,
+                                    MyContract.Znamka.COL_ZNAMKA};
+        String selection = MyContract.Znamka.COL_ZIAK + "=? AND " + MyContract.Znamka.COL_UCITELOVPREDMET + "=?";
+        String[] selectionArgs = {""+ziak.getId(),""+predmet.getId()};
+
+        Cursor c = db.query(MyContract.Znamka.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
+        c.moveToFirst();
+
+        Znamka znamka = new Znamka(c.getInt(0),
+                getZiak(c.getInt(c.getColumnIndex(MyContract.Znamka.COL_ZIAK))),
+                getUcitelovPredmet(c.getInt(c.getColumnIndex(MyContract.Znamka.COL_UCITELOVPREDMET))),
+                c.getString(c.getColumnIndex(MyContract.Znamka.COL_ZNAMKA))
+        );
+        c.close();
+
+        return znamka;
     }
 
     public Hodnotenie getHodnotenie(int id){
@@ -662,7 +732,7 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
 
-    public void upravHodnotenie(Hodnotenie hodnotenie) {
+    public void updateHodnotenie(Hodnotenie hodnotenie) {
 
         ContentValues values = new ContentValues();
             values.put(MyContract.Hodnotenie.COL_NAZOV,hodnotenie.getNazov());

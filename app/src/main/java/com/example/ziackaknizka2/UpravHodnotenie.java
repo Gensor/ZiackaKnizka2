@@ -1,8 +1,6 @@
 package com.example.ziackaknizka2;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -38,7 +36,7 @@ public class UpravHodnotenie extends AppCompatActivity {
                 hodnotenie.setNazov(editText_nazov.getText().toString());
                 hodnotenie.setBody(Integer.parseInt(editText_body.getText().toString()));
                 System.out.println(hodnotenie.toString());
-                databaza.upravHodnotenie(hodnotenie);
+                databaza.updateHodnotenie(hodnotenie);
                 schovajKlavesnicu(v);
                 finish();
 

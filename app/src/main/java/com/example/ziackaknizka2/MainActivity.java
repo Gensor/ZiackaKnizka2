@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
     private DBhelper databaza ;
     private Ucitel ucitel;
     ListView listView;
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,15 @@ public class MainActivity extends AppCompatActivity {
 
         ucitel = databaza.getUcitel(1);
 
-        TextView menoUcitela = findViewById(R.id.textView_mainActivity_menoUcitela);
+        TextView menoUcitela = findViewById(R.id.textView_main_meno);
+        button = findViewById(R.id.button_main_pridaj);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pridajPredmet(v);
+            }
+        });
+
         menoUcitela.setText(ucitel.toString());
 
         ukazPredmetyvListe(ucitel);
@@ -36,8 +46,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void ukazPredmetyvListe(Ucitel ucitel){
         final ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
-        ArrayAdapter<UcitelovPredmet> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,predmety);
-        listView = findViewById(R.id.listView_uvod_predmety);
+        ArrayAdapter<UcitelovPredmet> adapter = new MainActivity_adapter(MainActivity.this,predmety);
+        listView = findViewById(R.id.listview_main_predmety);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO: zmena ucitela po kliknuti na jeho meno
         ucitel=databaza.getUcitel(1);
         ukazPredmetyvListe(ucitel);
     }

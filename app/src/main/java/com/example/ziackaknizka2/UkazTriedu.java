@@ -22,7 +22,7 @@ public class UkazTriedu extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ukaztriedu);
-        listView = findViewById(R.id.listView_ukazZiakov);
+        listView = findViewById(R.id.listview_ukaztriedu);
         textView_predmet = findViewById(R.id.textView_ukaztriedu_predmet);
         textView_trieda = findViewById(R.id.textView_ukaztriedu_trieda);
 
@@ -30,7 +30,7 @@ public class UkazTriedu extends AppCompatActivity {
         DBhelper databaza = new DBhelper(this);
         final UcitelovPredmet predmet = intent.getParcelableExtra("predmet");
 
-        textView_predmet.setText("Predmet: "+predmet.getPredmet().toString());
+        textView_predmet.setText(predmet.getPredmet().toString());
         textView_trieda.setText("Trieda: "+predmet.getTrieda());
 
         final ArrayList<Ziak> ziaci = databaza.getZiakov(predmet.getTrieda());

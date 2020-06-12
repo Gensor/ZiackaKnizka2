@@ -6,9 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -28,33 +30,52 @@ public class Znamkuj extends AppCompatActivity {
     DBhelper databaza ;
     UcitelovPredmet predmet;
     Ziak ziak;
+    Spinner znamka_spinner;
+    String[] znamky ;
     Znamkuj_Adapter adapter;
-    int body =0;
+    Znamka znamka;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hodnotenie);
         databaza = new DBhelper(this);
+        znamky = new String[]{"A","B","C","D","E","Fx",""};
 
         Intent intent = getIntent();
          ziak = intent.getParcelableExtra("ziak");
          predmet = intent.getParcelableExtra("predmet");
 
-
         hodnotenia_listView = findViewById(R.id.listview_znamkuj_list);
-
+        znamka_spinner = findViewById(R.id.spinner_znamka);
         predmet_textView = findViewById(R.id.textview_znamkuj_predmet);
         predmet_textView.setText(predmet.getPredmet().toString());
         meno_priezvisko_textView = findViewById(R.id.textView_znamkuj_meno);
         body_textView = findViewById(R.id.textView_znamkuj_body);
-        meno_priezvisko_textView.setText(ziak.toString());
-
         nazovHodnotenia_editText = findViewById(R.id.editText_znamkuj_hodnotenienazov);
         body_editText = findViewById(R.id.editText_znamkuj_bodovanie);
         pridaj_button = findViewById(R.id.imageButton_znamkuj_pridaj);
 
+        ArrayAdapter<String> adapterZnamky = new ArrayAdapter<>(this,R.layout.spinner_znamka,znamky);
+        adapterZnamky.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        znamka_spinner.setAdapter(adapterZnamky);
         ukazHodnotenia();
+        znamka_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String zvolenaZnamka = znamka_spinner.getAdapter().getItem(position).toString();
+                znamka.setZnamka(zvolenaZnamka);
+                databaza.updateZnamka(znamka);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        meno_priezvisko_textView.setText(ziak.toString());
 
         pridaj_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,27 +117,38 @@ public class Znamkuj extends AppCompatActivity {
     }
 
     private void ukazZnamku(){
-        body = 0;
+        int body = 0;
         for(Hodnotenie hodnotenie:hodnotenia){
             body+=hodnotenie.getBody();
         }
-      //  body_textView.setText(""+body);
-        /*String result="";
-        if(body>=93){
-            result = "A";
-        }else if(body>=85){
-            result = "B";
-        }else if(body>=77){
-            result = "C";
-        }else if(body>=69){
-            result = "D";
-        }else if(body>=60){
-            result = "E";
-        }else{
-            result = "FX";
-        }*/
 
-        body_textView.setText("body:"+body);
+        if(databaza.hasZnamka(predmet,ziak)){
+            znamka = databaza.getZnamka(ziak,predmet);
+            String i = znamka.getZnamka();
+
+            switch (i){
+                case "A": znamka_spinner.setSelection(0);
+                        break;
+                case "B": znamka_spinner.setSelection(1);
+                    break;
+                case "C": znamka_spinner.setSelection(2);
+                    break;
+                case "D": znamka_spinner.setSelection(3);
+                    break;
+                case "E": znamka_spinner.setSelection(4);
+                    break;
+                case "Fx": znamka_spinner.setSelection(5);
+                    break;
+
+                default: znamka_spinner.setSelection(6);
+            }
+        }else{
+            znamka = new Znamka(0,ziak,predmet,"");
+            databaza.addZnamka(znamka);
+            znamka_spinner.setSelection(6);
+        }
+
+        body_textView.setText("body: "+body);
     }
 
 }

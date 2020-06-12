@@ -39,6 +39,11 @@ final class MyContract {
         static final String COL_BODY = "body";
         static final String COL_UCITELOVPREDMET = "ucitelov_predmet";
         static final String COL_ZIAK = "ziak";
-
+    }
+    static class Znamka{
+        static final String TABLE_NAME = "znamka";
+        static final String COL_ZIAK = "ziak";
+        static final String COL_UCITELOVPREDMET = "predmet";
+        static final String COL_ZNAMKA = "znamka";
     }
 }

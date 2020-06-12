@@ -1,111 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@mipmap/znamkuj_pozadie"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
+        android:id="@+id/relativelayout_main_hlava"
+        android:layout_width="match_parent"
+        android:layout_height="215dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="14dp"
+        android:background="@mipmap/mainactivity_hlava">
+
+        <ImageView
+            android:id="@+id/imageView_main_profile"
+            android:layout_width="138dp"
+            android:layout_height="141dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="26dp"
+            app:srcCompat="@mipmap/mainactivity_profilepic" />
+
+        <TextView
+            android:id="@+id/textView_prof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="83dp"
+            android:text="profesor"
+            android:textColor="@color/hint"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView_main_meno"
+            android:layout_width="177dp"
+            android:layout_height="76dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="110dp"
+            android:text="TextView"
+            android:textColor="@color/text_cierny"
+            android:textSize="29sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_main_telo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFF"
-        android:orientation="vertical">
+        android:layout_below="@+id/relativelayout_main_hlava"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginEnd="14dp"
+        android:layout_marginBottom="14dp"
+        android:background="@mipmap/mainactivity_telo">
 
-        <RelativeLayout
+        <Button
+            android:id="@+id/button_main_pridaj"
+            android:layout_width="214dp"
+            android:layout_height="37dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="89dp"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="#00FFFFFF"
+            android:drawableLeft="@mipmap/button_main_pridaj"
+            android:outlineAmbientShadowColor="#00FFFFFF"
+            android:outlineSpotShadowColor="#00FFFFFF"
+            android:shadowColor="#00FFFFFF"
+            android:text="pridaj predmet"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textView_main_predmety"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="15dp"
+            android:text="Predmety:"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/listview_main_predmety"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.6">
+            android:layout_height="319dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="72dp"
+            android:layout_marginEnd="10dp" />
 
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="31dp"
-                android:layout_marginEnd="46dp"
-                android:src="@drawable/user" />
-
-            <TextView
-                android:id="@+id/textView_mainActivity_menoUcitela"
-                android:layout_width="165dp"
-                android:layout_height="105dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="41dp"
-                android:layout_marginEnd="32dp"
-                android:layout_toStartOf="@+id/imageView"
-                android:fontFamily="@font/open_sans"
-                android:text=""
-                android:textSize="24sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.3">
-
-            <ListView
-                android:id="@+id/listView_uvod_predmety"
-                android:layout_width="wrap_content"
-                android:layout_height="360dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="36dp"
-                android:layout_marginTop="44dp"
-                android:layout_marginEnd="36dp"
-                android:layout_marginBottom="20dp" />
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="40dp"
-                android:layout_marginTop="10dp"
-                android:text="PREDMETY:" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="0.65">
-
-            <ImageButton
-                android:id="@+id/button_uvod_add"
-                android:layout_width="122dp"
-                android:layout_height="96dp"
-
-
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="37dp"
-                android:layout_marginBottom="15dp"
-                android:layout_toStartOf="@+id/button_uvod_delete"
-                android:background="#FFFFFF"
-                android:onClick="pridajPredmet"
-                android:scaleType="fitCenter"
-                android:src="@drawable/add2" />
-
-            <ImageButton
-                android:id="@+id/button_uvod_delete"
-                android:layout_width="122dp"
-                android:layout_height="96dp"
-
-
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="67dp"
-                android:layout_marginBottom="12dp"
-                android:background="#FFFFFF"
-                android:onClick="zmazPredmet"
-                android:scaleType="fitCenter"
-                android:src="@drawable/delete" />
-        </RelativeLayout>
-    </LinearLayout>
-</androidx.appcompat.widget.LinearLayoutCompat>
+    </RelativeLayout>
+</RelativeLayout>

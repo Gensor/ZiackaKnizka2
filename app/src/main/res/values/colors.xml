@@ -6,4 +6,6 @@
     <color name="znamka">#65F96A</color>
     <color name="hint">#707070</color>
     <color name="meno">#BA000000</color>
+    <color name="text_cierny">#171717</color>
+
 </resources>
