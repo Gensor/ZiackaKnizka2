@@ -38,7 +38,7 @@ public class MainActivity_adapter extends ArrayAdapter {
 
         nazov_predmetu.setText(predmet.toString());
 
-        delete_button.setImageResource(R.mipmap.imagebutton_znamkujadapter_zmaz);
+        delete_button.setImageResource(R.mipmap.imagebutton_main_delete);
 
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
