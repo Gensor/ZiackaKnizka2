@@ -313,6 +313,8 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public Znamka getZnamka(Ziak ziak , UcitelovPredmet predmet){
+
+
         String[] stlpce = { "rowid",MyContract.Znamka.COL_ZIAK,
                                     MyContract.Znamka.COL_UCITELOVPREDMET,
                                     MyContract.Znamka.COL_ZNAMKA};

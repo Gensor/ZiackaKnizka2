@@ -17,6 +17,9 @@ public class UkazTriedu extends AppCompatActivity {
     ListView listView;
     TextView textView_predmet;
     TextView textView_trieda ;
+    DBhelper databaza;
+    UcitelovPredmet predmet;
+    ArrayList<Ziak> ziaci;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,14 +30,14 @@ public class UkazTriedu extends AppCompatActivity {
         textView_trieda = findViewById(R.id.textView_ukaztriedu_trieda);
 
         final Intent intent = getIntent();
-        DBhelper databaza = new DBhelper(this);
-        final UcitelovPredmet predmet = intent.getParcelableExtra("predmet");
+        databaza = new DBhelper(this);
+        predmet = intent.getParcelableExtra("predmet");
 
         textView_predmet.setText(predmet.getPredmet().toString());
         textView_trieda.setText("Trieda: "+predmet.getTrieda());
 
-        final ArrayList<Ziak> ziaci = databaza.getZiakov(predmet.getTrieda());
-        ArrayAdapter<Ziak> adapter = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,ziaci);
+        ziaci = databaza.getZiakov(predmet.getTrieda());
+        ArrayAdapter<Ziak> adapter = new UkazTriedu_adapter(this,ziaci,predmet);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -47,5 +50,13 @@ public class UkazTriedu extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        ziaci = databaza.getZiakov(predmet.getTrieda());
+        ArrayAdapter<Ziak> adapter = new UkazTriedu_adapter(this,ziaci,predmet);
+        listView.setAdapter(adapter);
     }
 }
