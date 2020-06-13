@@ -1,6 +1,8 @@
 package com.example.ziackaknizka2;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,9 +45,10 @@ public class MainActivity_adapter extends ArrayAdapter {
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                databaza.deleteUcitelovPredmet(predmet);
+                /*databaza.deleteUcitelovPredmet(predmet);
                 predmety.remove(position);
-                notifyDataSetInvalidated();
+                notifyDataSetInvalidated();*/
+                zmazPredmet(v,predmet,databaza,position);
             }
         });
 
@@ -53,4 +56,34 @@ public class MainActivity_adapter extends ArrayAdapter {
 
         return customView;
     }
+
+
+    public void zmazPredmet(View view, final UcitelovPredmet predmet, final DBhelper databaza, final int position) {
+        DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+
+                        databaza.deleteUcitelovPredmet(predmet);
+                        predmety.remove(position);
+                        notifyDataSetInvalidated();
+
+
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Naozaj si chces zmazat\n"+predmet+" ?").setPositiveButton("ano", clickListener)
+                .setNegativeButton("nie", clickListener).show();
+
+    }
+
+
 }

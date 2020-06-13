@@ -1,29 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <EditText
-        android:id="@+id/editText_hodnotenie_riadok_uprav_nazov"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="nazov hodnotenia"
-        android:inputType="textPersonName" />
-
-    <EditText
-        android:id="@+id/editText_hodnotenie_riadok_uprav_body"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="pocet bodov"
-        android:inputType="number" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@mipmap/znamkuj_pozadie"
+    android:orientation="vertical">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/imageButton_upravhodnotenie_uprav"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="359dp"
+        android:background="#00FFFFFF"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/ok" />
-</LinearLayout>
+        app:srcCompat="@mipmap/imagebutton_znamkujadapter_uprav" />
+
+    <RelativeLayout
+        android:id="@+id/relativelayout_upravhodnotenie_telo"
+        android:layout_width="293dp"
+        android:layout_height="145dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="57dp"
+        android:layout_marginTop="171dp"
+        android:background="@mipmap/upravhodnotenie_telo">
+
+        <EditText
+            android:id="@+id/editText_upravhodnotenie_body"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="25dp"
+            android:ems="10"
+            android:hint="pocet bodov"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/editText_upravhodnotenie_nazov"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="16dp"
+            android:ems="10"
+            android:hint="nazov hodnotenia"
+            android:inputType="textPersonName" />
+    </RelativeLayout>
+</RelativeLayout>

@@ -23,9 +23,9 @@ public class UpravHodnotenie extends AppCompatActivity {
         Intent intent = getIntent();
         final Hodnotenie hodnotenie = intent.getParcelableExtra("hodnotenie");
         final DBhelper databaza = new DBhelper(this);
-        editText_nazov = findViewById(R.id.editText_hodnotenie_riadok_uprav_nazov);
-        editText_body = findViewById(R.id.editText_hodnotenie_riadok_uprav_body);
-        imageButton_ok = findViewById(R.id.imageButton2);
+        editText_nazov = findViewById(R.id.editText_upravhodnotenie_nazov);
+        editText_body = findViewById(R.id.editText_upravhodnotenie_body);
+        imageButton_ok = findViewById(R.id.imageButton_upravhodnotenie_uprav);
 
         editText_nazov.setText(hodnotenie.getNazov(), TextView.BufferType.EDITABLE);
         editText_body.setText("" + hodnotenie.getBody(), TextView.BufferType.EDITABLE);
