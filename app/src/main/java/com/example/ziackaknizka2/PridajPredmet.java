@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -20,6 +21,7 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
     Trieda trieda;
     Ucitel ucitel;
     DBhelper databaza ;
+    ImageButton button_pridaj;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
         ArrayList<Trieda> triedy = intent.getParcelableArrayListExtra("triedy");
         ucitel = intent.getParcelableExtra("ucitel");
 
-
+        button_pridaj = findViewById(R.id.imagebutton_pridajpredmet_ok);
         spinner_predmety = findViewById(R.id.spinner_predmety);
         ArrayAdapter<Predmet> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, predmety);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -46,6 +48,13 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
         adapter_predmety.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner_triedy.setAdapter(adapter_predmety);
         spinner_triedy.setOnItemSelectedListener(this);
+
+        button_pridaj.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vytvorUciteloviPredmet();
+            }
+        });
 
     }
 
@@ -66,7 +75,7 @@ public class PridajPredmet extends AppCompatActivity implements AdapterView.OnIt
         System.out.println("nic nevybrane");
     }
 
-    public void vytvorUciteloviPredmet(View view) {
+    public void vytvorUciteloviPredmet() {
 
             databaza.addUcitelovyPredmet(ucitel,predmet,trieda);
 

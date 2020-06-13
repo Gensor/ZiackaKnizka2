@@ -95,8 +95,6 @@ public class Znamkuj extends AppCompatActivity {
 
 
 
-
-
     }
 
     @Override
