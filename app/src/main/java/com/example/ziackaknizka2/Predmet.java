@@ -1,19 +1,14 @@
 package com.example.ziackaknizka2;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
-
 import androidx.annotation.NonNull;
-
-import java.io.Serializable;
 
 class Predmet implements Parcelable {
     private int id;
-    private String nazov ;
-    private String popis = "";
-    private String osnova = "";
-
+    private String nazov;
+    private String popis;
+    private String osnova ;
 
     protected Predmet(Parcel in) {
         id = in.readInt();
@@ -34,16 +29,6 @@ class Predmet implements Parcelable {
         }
     };
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-
     public Predmet(int id, String nazov, String popis, String osnova) {
         this.id = id;
         this.nazov = nazov;
@@ -51,28 +36,20 @@ class Predmet implements Parcelable {
         this.osnova = osnova;
     }
 
+    public int getId() { return id; }
+
+    public void setId(int id) { this.id = id; }
+
     public String getNazov() {
         return nazov;
-    }
-
-    public void setNazov(String nazov) {
-        this.nazov = nazov;
     }
 
     public String getPopis() {
         return popis;
     }
 
-    public void setPopis(String popis) {
-        this.popis = popis;
-    }
-
     public String getOsnova() {
         return osnova;
-    }
-
-    public void setOsnova(String osnova) {
-        this.osnova = osnova;
     }
 
     @Override

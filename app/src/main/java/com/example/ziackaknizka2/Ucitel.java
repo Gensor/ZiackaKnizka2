@@ -1,6 +1,5 @@
 package com.example.ziackaknizka2;
 
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -14,7 +13,6 @@ public class Ucitel extends Osoba implements Parcelable {
     public Ucitel(Parcel in) {
         super(in);
     }
-
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -37,9 +35,5 @@ public class Ucitel extends Osoba implements Parcelable {
             return new Ucitel[size];
         }
     };
-
-
-
-
-    }
+}
 

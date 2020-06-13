@@ -3,7 +3,6 @@ package com.example.ziackaknizka2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class Trieda implements Parcelable {
     private int ID;
     private String nazov;
@@ -34,16 +33,8 @@ public class Trieda implements Parcelable {
         return ID;
     }
 
-    public void setID(int ID) {
-        this.ID = ID;
-    }
-
     public String getNazov() {
         return nazov;
-    }
-
-    public void setNazov(String nazov) {
-        this.nazov = nazov;
     }
 
     @Override
@@ -61,6 +52,4 @@ public class Trieda implements Parcelable {
         dest.writeInt(ID);
         dest.writeString(nazov);
     }
-
-
 }

@@ -10,16 +10,14 @@ import android.widget.ListView;
 import android.widget.TextView;
 import java.util.ArrayList;
 
-
 public class MainActivity extends AppCompatActivity {
-    private DBhelper databaza ;
+    private DBhelper databaza;
     private Ucitel ucitel;
-    ListView listView_zoznamPredmetov;
-    Button button_pridajPredmet;
+    private ListView listView_zoznamPredmetov;
+    private Button button_pridajPredmet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         databaza = new DBhelper(this);

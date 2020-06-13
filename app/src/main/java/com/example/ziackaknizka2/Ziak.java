@@ -4,10 +4,8 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 class Ziak extends Osoba implements Parcelable {
-    private Trieda trieda;
     public Ziak(int id, String meno, String priezvisko, Trieda trieda) {
         super(id,meno, priezvisko);
-        this.trieda = trieda;
     }
 
     protected Ziak(Parcel in) {

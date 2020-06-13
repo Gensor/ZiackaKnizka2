@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/textView_hodnotenieRiadok_nazovHodnotenia"
+        android:id="@+id/textView_znamkuj_riadok_nazovHodnotenia"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -16,7 +16,7 @@
         android:textSize="20sp" />
 
     <TextView
-        android:id="@+id/textView_hodnotenieRiadok_bodyHodnotenia"
+        android:id="@+id/textView_znamkuj_riadok_bodyHodnotenia"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
@@ -27,7 +27,7 @@
         android:textSize="20sp" />
 
     <ImageButton
-        android:id="@+id/imageButton_hodnotenieRiadok_uprav"
+        android:id="@+id/imageButton_znamkuj_riadok_uprav"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_margin="5dp"
@@ -39,7 +39,7 @@
         app:srcCompat="@mipmap/imagebutton_znamkujadapter_uprav" />
 
     <ImageButton
-        android:id="@+id/imageButton_hodnotenieRiadok_zmaz"
+        android:id="@+id/imageButton_znamkuj_riadok_zmaz"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"

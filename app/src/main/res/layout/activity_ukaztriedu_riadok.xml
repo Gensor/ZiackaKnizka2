@@ -13,7 +13,6 @@
         android:layout_marginStart="0dp"
         android:layout_marginTop="5dp"
         android:layout_toStartOf="@+id/textView_ukaztriedu_riadok_znamka"
-        android:text="TextView"
         android:textAlignment="textStart"
         android:textSize="18sp" />
 

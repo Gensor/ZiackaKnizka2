@@ -1,5 +1,10 @@
 <resources>
     <string name="app_name">ZiackaKnizka2</string>
+    <string name="profesor">Profesor</string>
+    <string name="predmety">Predmety:</string>
+    <string name="triedy">Triedy:</string>
+    <string name="nazov_hodnotenia">nazov hodnotenia</string>
+    <string name="pocet_bodov">pocet bodov</string>
     <!-- Strings used for fragments for navigation -->
 
 </resources>

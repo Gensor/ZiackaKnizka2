@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class Znamkuj_Adapter extends ArrayAdapter {
-private ArrayList<Hodnotenie> hodnotenia;
+    private ArrayList<Hodnotenie> hodnotenia;
 
     public Znamkuj_Adapter(@NonNull Context context, ArrayList<Hodnotenie> hodnotenia) {
         super(context,R.layout.activity_znamkuj_riadok, hodnotenia);
@@ -29,10 +29,10 @@ private ArrayList<Hodnotenie> hodnotenia;
         final DBhelper databaza = new DBhelper(parent.getContext());
         final Hodnotenie hodnotenie =(Hodnotenie) getItem(position);
 
-        TextView textview_nazov = customView.findViewById(R.id.textView_hodnotenieRiadok_nazovHodnotenia);
-        TextView textview_body = customView.findViewById(R.id.textView_hodnotenieRiadok_bodyHodnotenia);
-        ImageButton button_uprav = customView.findViewById(R.id.imageButton_hodnotenieRiadok_uprav);
-        ImageButton button_zmaz = customView.findViewById(R.id.imageButton_hodnotenieRiadok_zmaz);
+        TextView textview_nazov = customView.findViewById(R.id.textView_znamkuj_riadok_nazovHodnotenia);
+        TextView textview_body = customView.findViewById(R.id.textView_znamkuj_riadok_bodyHodnotenia);
+        ImageButton button_uprav = customView.findViewById(R.id.imageButton_znamkuj_riadok_uprav);
+        ImageButton button_zmaz = customView.findViewById(R.id.imageButton_znamkuj_riadok_zmaz);
 
         assert hodnotenie != null;
         textview_nazov.setText(hodnotenie.getNazov());
@@ -57,12 +57,4 @@ private ArrayList<Hodnotenie> hodnotenia;
         });
         return customView;
     }
-
-
-
-
-
-
-
-
 }

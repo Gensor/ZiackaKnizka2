@@ -18,10 +18,9 @@
         android:background="@mipmap/pridajpredmet_telo">
 
         <Spinner
-            android:id="@+id/spinner_predmety"
+            android:id="@+id/spinner_pridajpredmet_predmety"
             android:layout_width="266dp"
             android:layout_height="35dp"
-
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="43dp"
@@ -32,10 +31,9 @@
             tools:layout_editor_absoluteY="40dp" />
 
         <Spinner
-            android:id="@+id/spinner_triedy"
+            android:id="@+id/spinner_pridajpredmet_triedy"
             android:layout_width="266dp"
             android:layout_height="35dp"
-
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="24dp"
@@ -47,27 +45,26 @@
             tools:layout_editor_absoluteY="40dp" />
 
         <TextView
-            android:id="@+id/pridajPredmet_triedy"
+            android:id="@+id/textview_pridajPredmet_triedy"
             android:layout_width="266dp"
             android:layout_height="wrap_content"
-
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="24dp"
             android:layout_marginBottom="69dp"
-            android:text="Triedy: "
+            android:text="@string/triedy"
             android:textAlignment="textStart"
             android:textSize="20sp"
             tools:layout_editor_absoluteY="235dp" />
 
         <TextView
-            android:id="@+id/pridajPredmet_predmety"
+            android:id="@+id/textview_pridajPredmet_predmety"
             android:layout_width="266dp"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="5dp"
             android:layout_marginEnd="24dp"
-            android:text="Predmety: "
+            android:text="@string/predmety"
             android:textAlignment="textStart"
             android:textSize="20sp"
             tools:layout_editor_absoluteY="30dp" />

@@ -26,11 +26,10 @@ public class Znamkuj extends AppCompatActivity {
     private Spinner znamka_spinner;
     private Znamka znamka;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hodnotenie);
+        setContentView(R.layout.activity_znamkuj);
         String[] znamky = new String[]{"A", "B", "C", "D", "E", "Fx", ""};
         databaza = new DBhelper(this);
 
@@ -39,7 +38,7 @@ public class Znamkuj extends AppCompatActivity {
         predmet = intent.getParcelableExtra("predmet");
 
         hodnotenia_listView = findViewById(R.id.listview_znamkuj_list);
-        znamka_spinner = findViewById(R.id.spinner_znamka);
+        znamka_spinner = findViewById(R.id.spinner_znamkuj_znamka);
 
         TextView predmet_textView = findViewById(R.id.textview_znamkuj_predmet);
         predmet_textView.setText(predmet.getPredmet().toString());
@@ -73,8 +72,8 @@ public class Znamkuj extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String nazovHodnotenia = nazovHodnotenia_editText.getText().toString();
-                int body = -1;
-                body = Integer.parseInt( body_editText.getText().toString() );
+
+                int body = Integer.parseInt( body_editText.getText().toString() );
 
                 if( (nazovHodnotenia.isEmpty()) || (body < 0) )return;
 
@@ -130,5 +129,11 @@ public class Znamkuj extends AppCompatActivity {
             znamka_spinner.setSelection(6);
         }
         body_textView.setText("body: "+body);
+    }
+
+    @Override
+    protected void onDestroy() {
+        databaza.close();
+        super.onDestroy();
     }
 }

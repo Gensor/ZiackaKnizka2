@@ -29,9 +29,7 @@ public class Znamka {
         return predmet;
     }
 
-    public void setPredmet(UcitelovPredmet predmet) {
-        this.predmet = predmet;
-    }
+    public void setPredmet(UcitelovPredmet predmet) { this.predmet = predmet; }
 
     public String getZnamka() {
         return znamka;
@@ -43,6 +41,6 @@ public class Znamka {
 
     @Override
     public String toString() {
-        return getZnamka();
+        return znamka;
     }
 }

@@ -5,11 +5,11 @@ import android.os.Parcelable;
 
 public class Hodnotenie implements Parcelable {
 
-    int id;
-    String nazov;
-    int body;
-    UcitelovPredmet predmet;
-    Ziak ziak;
+    private int id;
+    private String nazov;
+    private int body;
+    private UcitelovPredmet predmet;
+    private Ziak ziak;
 
     public Hodnotenie(int id, String nazov, int body, UcitelovPredmet predmet, Ziak ziak) {
         this.id = id;
@@ -18,7 +18,6 @@ public class Hodnotenie implements Parcelable {
         this.predmet = predmet;
         this.ziak = ziak;
     }
-
 
     protected Hodnotenie(Parcel in) {
         id = in.readInt();
@@ -90,18 +89,4 @@ public class Hodnotenie implements Parcelable {
         return ziak;
     }
 
-    public void setZiak(Ziak ziak) {
-        this.ziak = ziak;
-    }
-
-    @Override
-    public String toString() {
-        return "Hodnotenie{" +
-                "id=" + id +
-                ", nazov='" + nazov + '\'' +
-                ", body=" + body +
-                ", predmet=" + predmet +
-                ", ziak=" + ziak +
-                '}';
-    }
 }

@@ -7,62 +7,64 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
-
 import java.util.ArrayList;
 import java.util.Random;
 
 public class DBhelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 15;
-
+    private static final int DATABASE_VERSION = 17;
     private static final String DATABASE_NAME = "ziackaKnizka.db";
     private static final int POCET_GENEROVANYCH_LUDI = 150;
     private static final int POCET_GENEROVANYCH_UCITELOV = 15;
     private static final int POCET_GENEROVANYCH_TRIED = 7;
     private static final int POCET_PRIRADENYCH_PREDMETOV = 4;
-    private SQLiteDatabase db = getWritableDatabase();
-
-
-
+    private SQLiteDatabase db ;
 
     DBhelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        db = getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         System.out.println(" - ON-CREATE - ");
         this.db=db;
-    //na id pouzivam ROWID
+
         String sqlCreate_osoba = "CREATE TABLE " +
                 MyContract.Osoba.TABLE_NAME + " ( " +
                 MyContract.Osoba.COL_MENO + " text not null, " +
                 MyContract.Osoba.COL_PRIEZVISKO + " text not null ) ";
         db.execSQL(sqlCreate_osoba);
+
         String sqlCreate_trieda = "CREATE TABLE " +
                 MyContract.Trieda.TABLE_NAME + " ( " +
                 MyContract.Trieda.COL_NAZOV + " text not null ) ";
         db.execSQL(sqlCreate_trieda);
+
         String sqlCreate_ucitelia = "CREATE TABLE " +
                 MyContract.Ucitel.TABLE_NAME + " ( " +
                 MyContract.Ucitel.COL_OSOBA + " text not null ) ";
         db.execSQL(sqlCreate_ucitelia);
+
         String sqlCreate_ziaci = "CREATE TABLE " +
                 MyContract.Ziak.TABLE_NAME + " ( " +
                 MyContract.Ziak.COL_OSOBA + " int not null, " +
                 MyContract.Ziak.COL_TRIEDA + " int not null) ";
         db.execSQL(sqlCreate_ziaci);
+
         String sqlCreate_predmety = "CREATE TABLE " +
                 MyContract.Predmet.TABLE_NAME + " ( " +
                 MyContract.Predmet.COL_NAZOV + " text not null, " +
                 MyContract.Predmet.COL_POPIS + " text, " +
                 MyContract.Predmet.COL_OSNOVA + " text )";
         db.execSQL(sqlCreate_predmety);
+
         String sqlCreate_ucitelovePredmety = "CREATE TABLE " +
                 MyContract.UcitelovPredmet.TABLE_NAME + " ( " +
                 MyContract.UcitelovPredmet.COL_UCITEL + " int not null, " +
                 MyContract.UcitelovPredmet.COL_PREDMET + " int not null, " +
                 MyContract.UcitelovPredmet.COL_TRIEDA + " text not null) ";
         db.execSQL(sqlCreate_ucitelovePredmety);
+
         String sqlCreate_hodnotenie = "CREATE TABLE " +
                 MyContract.Hodnotenie.TABLE_NAME + " ( " +
                 MyContract.Hodnotenie.COL_NAZOV + " text not null, " +
@@ -70,6 +72,7 @@ public class DBhelper extends SQLiteOpenHelper {
                 MyContract.Hodnotenie.COL_UCITELOVPREDMET + " int not null, " +
                 MyContract.Hodnotenie.COL_ZIAK +" int not null) ";
         db.execSQL(sqlCreate_hodnotenie);
+
         String sqlCreate_znamka = "CREATE TABLE " +
                 MyContract.Znamka.TABLE_NAME + " ( " +
                 MyContract.Znamka.COL_ZIAK + " int not null, " +
@@ -94,11 +97,7 @@ public class DBhelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-
-
-
    private ArrayList<Ucitel> getVsetkychUcitelov(){
-
         ArrayList<Ucitel> celaZborovna = new ArrayList<>();
 
         for (int id_ucitela = 1; id_ucitela <= getVelkostTabulky(MyContract.Ucitel.TABLE_NAME); id_ucitela++){
@@ -108,7 +107,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return celaZborovna;
     }
 
-     ArrayList<Trieda> getVsetkyTriedy() {
+   public ArrayList<Trieda> getVsetkyTriedy() {
 
         ArrayList<Trieda> triedy = new ArrayList<>();
         String[] stlpce = {"rowid", MyContract.Trieda.COL_NAZOV};
@@ -124,11 +123,9 @@ public class DBhelper extends SQLiteOpenHelper {
         }
         c.close();
         return triedy;
+   }
 
-    }
-
-    ArrayList<Predmet> getVsetkyPredmety(){
-
+   public ArrayList<Predmet> getVsetkyPredmety(){
         ArrayList<Predmet> predmety = new ArrayList<>();
 
         String[] stlpce = {"rowid",MyContract.Predmet.COL_NAZOV,MyContract.Predmet.COL_POPIS, MyContract.Predmet.COL_OSNOVA};
@@ -147,8 +144,7 @@ public class DBhelper extends SQLiteOpenHelper {
         }
         c.close();
         return predmety;
-
-    }
+   }
 
     public void addUcitelovyPredmet(Ucitel ucitel , Predmet predmet, Trieda trieda){
         if(ucitel==null||predmet==null||trieda==null){
@@ -178,10 +174,9 @@ public class DBhelper extends SQLiteOpenHelper {
         stm.bindLong(2,id_predmet);
         stm.bindLong(3,id_trieda);
         long rowid = stm.executeInsert();
-
     }
 
-    boolean isUcitelovPredmet(UcitelovPredmet ucitelovPredmet){
+    private boolean isUcitelovPredmet(UcitelovPredmet ucitelovPredmet){
 
         String sqlQuery = "SELECT * FROM " + MyContract.UcitelovPredmet.TABLE_NAME +
                 " WHERE "+ MyContract.UcitelovPredmet.COL_UCITEL +" = ? AND " +
@@ -204,7 +199,7 @@ public class DBhelper extends SQLiteOpenHelper {
         db.delete(MyContract.Hodnotenie.TABLE_NAME,"rowid = "+hodnotenie.getId(),null);
     }
 
-    public void addOsoba(Osoba osoba) {
+    private void addOsoba(Osoba osoba) {
         if(osoba==null)return;
 
         String sql = "INSERT INTO osoby (meno, priezvisko) VALUES (?, ?)";
@@ -216,9 +211,8 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
-    public void addUcitel(Osoba osoba) {
+    private void addUcitel(Osoba osoba) {
         if(osoba==null)return;
-
 
         String sql = "INSERT INTO " +
                 MyContract.Ucitel.TABLE_NAME +
@@ -229,10 +223,9 @@ public class DBhelper extends SQLiteOpenHelper {
         stm.clearBindings();
         stm.bindLong(1,osoba.getId());
         long rowid = stm.executeInsert();
-
     }
 
-    public void addTrieda(Trieda trieda){
+    private void addTrieda(Trieda trieda){
         if(trieda==null)return;
 
         String sql = "INSERT INTO "+ MyContract.Trieda.TABLE_NAME +" (" +
@@ -265,13 +258,9 @@ public class DBhelper extends SQLiteOpenHelper {
         stm.bindLong(3,hodnotenie.getPredmet().getId());
         stm.bindLong(4,hodnotenie.getZiak().getId());
         long rowid = stm.executeInsert();
-
-
     }
 
     public void addZnamka(Znamka znamka){
-
-
         String sql = "INSERT INTO " + MyContract.Znamka.TABLE_NAME + " ( " +
                 MyContract.Znamka.COL_ZIAK + ", " +
                 MyContract.Znamka.COL_UCITELOVPREDMET + ", " +
@@ -303,7 +292,6 @@ public class DBhelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(MyContract.Znamka.COL_ZNAMKA,znamka.getZnamka());
 
-
         db.update(
                 MyContract.Znamka.TABLE_NAME,
                 values,
@@ -313,8 +301,6 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     public Znamka getZnamka(Ziak ziak , UcitelovPredmet predmet){
-
-
         String[] stlpce = { "rowid",MyContract.Znamka.COL_ZIAK,
                                     MyContract.Znamka.COL_UCITELOVPREDMET,
                                     MyContract.Znamka.COL_ZNAMKA};
@@ -334,8 +320,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return znamka;
     }
 
-    public Hodnotenie getHodnotenie(int id){
-
+    private Hodnotenie getHodnotenie(int id){
         String[] stlpce = { "rowid",MyContract.Hodnotenie.COL_NAZOV, MyContract.Hodnotenie.COL_BODY, MyContract.Hodnotenie.COL_UCITELOVPREDMET, MyContract.Hodnotenie.COL_ZIAK};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -352,7 +337,6 @@ public class DBhelper extends SQLiteOpenHelper {
         c.close();
 
         return hodnotenie;
-
     }
 
     public ArrayList<Hodnotenie> getVsetkyHodnotenia(UcitelovPredmet predmet, Ziak ziak){
@@ -366,25 +350,21 @@ public class DBhelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             do{
                 Hodnotenie hodnotenie = getHodnotenie(c.getInt(0));
-
                 if(hodnotenie!=null) {
                     vsetkyHodnotenia.add(hodnotenie);
                 }
             }while (c.moveToNext());
         }
-
         c.close();
 
         return vsetkyHodnotenia;
-
     }
 
-     void addZiak(Osoba osoba, Trieda trieda){
+     private void addZiak(Osoba osoba, Trieda trieda){
         if(osoba==null){
             System.out.println("chyba pri vkladani ziaka");
             return;
         }
-
 
         String sql = "INSERT INTO " +
                 MyContract.Ziak.TABLE_NAME +
@@ -399,7 +379,7 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
-    void addPredmet(Predmet predmet) {
+    private void addPredmet(Predmet predmet) {
         if(predmet==null){
             System.out.println("chyba pri vkladani predmetu");
             return;
@@ -418,8 +398,7 @@ public class DBhelper extends SQLiteOpenHelper {
         long rowid = stm.executeInsert();
     }
 
-    Osoba getOsoba(int id){
-
+    private Osoba getOsoba(int id){
         String[] stlpce = {MyContract.Osoba.COL_MENO,MyContract.Osoba.COL_PRIEZVISKO};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -433,7 +412,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return osoba;
     }
 
-    public Predmet getPredmet(int id){
+    private Predmet getPredmet(int id){
         String[] stlpce = {MyContract.Predmet.COL_NAZOV,MyContract.Predmet.COL_POPIS, MyContract.Predmet.COL_OSNOVA};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -448,7 +427,7 @@ public class DBhelper extends SQLiteOpenHelper {
         return predmet;
     }
 
-    Ucitel getUcitel(int id){
+    public Ucitel getUcitel(int id){
         String[] stlpce = {MyContract.Ucitel.COL_OSOBA};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -465,8 +444,8 @@ public class DBhelper extends SQLiteOpenHelper {
 
         return ucitel;
     }
-    boolean isUcitel(Osoba osoba){
 
+    private boolean isUcitel(Osoba osoba){
         String sqlQuery = "SELECT * FROM " + MyContract.Ucitel.TABLE_NAME +
                 " WHERE "+ MyContract.Ucitel.COL_OSOBA +" = ? ";
         String[] selectionArgs = {""+osoba.getId()};
@@ -476,10 +455,9 @@ public class DBhelper extends SQLiteOpenHelper {
 
         if(count>1) System.out.println("mas duplicitu v uciteloch");
         return count==1;
-
     }
 
-    UcitelovPredmet getUcitelovPredmet(int id){
+    private UcitelovPredmet getUcitelovPredmet(int id){
         String[] stlpce = {MyContract.UcitelovPredmet.COL_UCITEL, MyContract.UcitelovPredmet.COL_PREDMET, MyContract.UcitelovPredmet.COL_TRIEDA};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -495,36 +473,32 @@ public class DBhelper extends SQLiteOpenHelper {
         return ucitelovPredmet;
     }
 
-    public ArrayList<UcitelovPredmet> getVsetkyUcitelovePredmety(Ucitel ucitel){
+    public ArrayList<UcitelovPredmet> getVsetkyUcitelovePredmety(Ucitel ucitel) {
         ArrayList<UcitelovPredmet> predmety = new ArrayList<>();
 
-        String[] stlpce = {"rowid",MyContract.UcitelovPredmet.COL_UCITEL, MyContract.UcitelovPredmet.COL_PREDMET, MyContract.UcitelovPredmet.COL_TRIEDA};
-        String selection = MyContract.UcitelovPredmet.COL_UCITEL+"=?";
-        String[] selectionArgs = {""+ucitel.getId()};
+        String[] stlpce = {"rowid", MyContract.UcitelovPredmet.COL_UCITEL, MyContract.UcitelovPredmet.COL_PREDMET, MyContract.UcitelovPredmet.COL_TRIEDA};
+        String selection = MyContract.UcitelovPredmet.COL_UCITEL + "=?";
+        String[] selectionArgs = {"" + ucitel.getId()};
 
-        Cursor c = db.query(MyContract.UcitelovPredmet.TABLE_NAME,stlpce,selection,selectionArgs,null,null,null);
-        if(c.moveToFirst()){
-            do{
+        Cursor c = db.query(MyContract.UcitelovPredmet.TABLE_NAME, stlpce, selection, selectionArgs, null, null, null);
+        if (c.moveToFirst()) {
+            do {
                 UcitelovPredmet ucitelovPredmet = new UcitelovPredmet(
                         c.getInt(0),
-                        getUcitel( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_UCITEL))),
-                        getPredmet(c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_PREDMET))),
-                        getTrieda( c.getInt( c.getColumnIndex(MyContract.UcitelovPredmet.COL_TRIEDA))));
+                        getUcitel(c.getInt(c.getColumnIndex(MyContract.UcitelovPredmet.COL_UCITEL))),
+                        getPredmet(c.getInt(c.getColumnIndex(MyContract.UcitelovPredmet.COL_PREDMET))),
+                        getTrieda(c.getInt(c.getColumnIndex(MyContract.UcitelovPredmet.COL_TRIEDA))));
 
-                if(ucitelovPredmet!=null) {
+                if (ucitelovPredmet != null) {
                     predmety.add(ucitelovPredmet);
                 }
-            }while (c.moveToNext());
+            } while (c.moveToNext());
         }
-
         c.close();
-
         return predmety;
-
     }
 
-    Trieda getTrieda(int id){
-
+    private Trieda getTrieda(int id){
         String[] stlpce = {MyContract.Trieda.COL_NAZOV};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -537,8 +511,8 @@ public class DBhelper extends SQLiteOpenHelper {
 
         return trieda;
     }
-    public ArrayList<Ziak> getZiakov(Trieda trieda){
 
+    public ArrayList<Ziak> getZiakov(Trieda trieda){
         ArrayList<Ziak> ziaci = new ArrayList<>();
         String[] stlpce = {"rowid", MyContract.Ziak.COL_OSOBA};
         String selection = MyContract.Ziak.COL_TRIEDA+"=?";
@@ -558,8 +532,7 @@ public class DBhelper extends SQLiteOpenHelper {
 
     }
 
-    public Ziak getZiak(int id){
-
+    private Ziak getZiak(int id){
         String[] stlpce = {MyContract.Ziak.COL_OSOBA, MyContract.Ziak.COL_TRIEDA};
         String selection = "rowid=?";
         String[] selectionArgs = {""+id};
@@ -575,11 +548,9 @@ public class DBhelper extends SQLiteOpenHelper {
         c.close();
 
         return ziak;
-
     }
 
-
-    public int getVelkostTabulky(String nazovTabulky){
+    private int getVelkostTabulky(String nazovTabulky){
         int count = 0;
         String sqlQuery = "SELECT * FROM " + nazovTabulky ;
 
@@ -591,23 +562,6 @@ public class DBhelper extends SQLiteOpenHelper {
         return count;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private void generujDatabazu(){
         generujLudi(POCET_GENEROVANYCH_LUDI);
         generujUcitelov(POCET_GENEROVANYCH_UCITELOV);
@@ -616,6 +570,7 @@ public class DBhelper extends SQLiteOpenHelper {
         generujPredmety();
         generujUcitelomPredmety();
     }
+
     private void generujUcitelov(int pocet ) {
         if(pocet<1)return;
 
@@ -636,7 +591,6 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     private Osoba[] generatorLudi(int pocet){
-        // zenske mena nebudu (skoda casu :D)
         String[] mena = {"Bohuslav","Boleslav","Bonifác","Boris","Bořek","Bořivoj","Bronislav","Bruno","Břetislav","Ctibor","Ctirad","Cyril","Čeněk","Čestmír","Dalibor","Dalimil","Daniel","David","Dobroslav","Dominik","Drahoslav","Dušan","Eduard","Emanuel","Emil","Erik","Evžen","Felix","Ferdinand","Filip","František","Gabriel","Gustav","Hanuš","Havel","Herbert","Heřman","Horymír","Hubert","Hugo","Hynek","Ignác","Igor","Ingrid","Ivan","Ivo","Jáchym","Jakub","Jan","Jarmil","Jaromír","Jaroslav","Jeroným","Jindřich","Jiří","Jonáš","Josef","Julius","Kamil","Karel","Kazimír",
                 "Rudolf","Řehoř","Samuel","Servác","Silvestr","Slavomír","Soběslav","Stanislav","Svatopluk","Svatoslav","Šimon","Štefan","Štěpán","Tadeáš","Teodor","Tibor","Tomáš","Václav","Valdemar","Valentýn","Vavřinec","Věnceslav","Vendelín","Věroslav","Viktor","Vilém","Vincenc","Vít","Vítězslav","Vladan","Vladimír","Vladislav","Vlastimil","Vlastislav","Vojtěch","Vratislav","Zbyněk","Zbyšek","Zdeněk","Zikmund",
                 "Klement","Kristián","Kryštof","Květoslav","Kvido","Ladislav","Leopold","Leoš","Libor","Lubomír","Lubor","Luboš","Luděk","Ludvík","Lukáš","Lumír","Marcel","Marek","Marián","Martin","Matěj","Matouš","Maxim","Medard","Metoděj","Michal","Mikuláš","Milan","Miloslav","Miloš","Miroslav","Mojmír","Norbert","Oldřich","Oleg","Oliver","Ondřej","Oskar","Otakar","Otmar","Oto","Pankrác","Patrik","Pavel","Petr","Pravoslav","Prokop","Přemysl","Radan","Radek","Radim","Radomír","Radoslav","Radovan","René","Richard","Robert","Robin","Roland","Roman","Rostislav"};
@@ -680,26 +634,21 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     private void generujZiakov(){
-
         for(int i = 1; i<=POCET_GENEROVANYCH_LUDI; i++){
             Osoba osoba = getOsoba(i);
             if(!isUcitel(osoba)){
-
                 Trieda trieda = getTrieda((i%POCET_GENEROVANYCH_TRIED)+1);
                 addZiak(osoba, trieda);
-
             }
         }
     }
 
     private void generujTriedy(int pocet) {
-
         for(int i = 1; i<=pocet; i++){
             String nazov = "TR_"+((i%pocet)+1);
             Trieda trieda = new Trieda(i,nazov);
             addTrieda(trieda);
         }
-
     }
 
     private void generujUcitelomPredmety() {
@@ -720,7 +669,6 @@ public class DBhelper extends SQLiteOpenHelper {
     }
 
     private void generujPredmety() {
-
         addPredmet(new Predmet(1,"Vývoj aplikácií pre iOS" , "Študent efektívne využíva prostredie pre vývoj mobilných aplikácií pre iOS. Študent pozná situácie a techniky typické pre tvorbu mobilných aplikácií pre iOS. Študent dokáže využívaťGUI komponenty prostredia a jazyk Swift pri tvorbe vlastných aplikácií. Študent dokáže využívať grafiku, animáciu a spracovanie dotykov pri grafických aplikáciách. Študent dokáže vytvoriť komplexnú mobilnú aplikáciu využívajúcu všetky potrebné komunikačné rozhrania v operačnom systéme iOS. Študent je schopný samostatne vytvoriť komplexnú aplikáciu pre zariadenia s iOS.","1. Swift. Základné riadiace a údajové štruktúry. 2. Úvod do iOS 3. MVC architektúra 4. Pokročilé prvky jazyka Swift 5. Grafika 6. Spracovanie dotykov a multitouch 7. Časovač a animácia 8. Multithreading a autolayout 9. Drag&drop 10. Vybrané komponenty prostredia" ));
         addPredmet(new Predmet(2,"Úvod do modelovania a simulácie","VV1: Študent získava vedomosti o základných typoch modelov v oblasti prírodných vied. VV2: Študent porozumie základným vlastnostiam uvedených modelov. VV3: Študent analyzuje získané vedomosti o jednotlivých modeloch. VV4: Študent aplikuje naučené vedomosti do oblasti modelovania a simulácie.","1. Základné pojmy 2. Diskrétne systémy: Markovove náhodne procesy a ich vlastnosti Systémy hromadnej obsluhy (SHO) a ich klasifikácia Kolmogorovove diferenciálne rovnice na analytické riešenie SHO Popis a riešenie rôznych typov systémov hromadnej obsluhy Siete systémov hromadnej obsluhy a ich analytické riešenie Metódy generovania náhodných čísel Metóda Monte Carlo a jej aplikácie Jazyky na simuláciu diskrétnych systémov Počítačová simulácia diskrétnych systémov. 3. Spojité systémy: Popis spojitých systémov, matematické modely spojitých systémov a ich tvorba Jazyky na simuláciu spojitých systémov (Simulink) Počítačová simulácia spojitých systémov."));
         addPredmet(new Predmet(3,"Umelá inteligencia","Cieľom predmetu je vysvetliť pojmy, postupy a zameranie výskumu umelej inteligencie tak, aby poslucháči získali orientáciu v tejto modernej a prudko sa rozvíjajúcej oblasti, nadobudli predstavu o jej teoretických základoch i o aplikačnom aspekte a získali základnú zručnosť pri riešení typických príkladov z danej oblasti.","1. Umelá inteligencia ako vedný odbor, základné smery výskumu, poznatky ako predmet výskumu. 2. Riešenie problémov, informatívne a neinformatívne hľadanie, heuristika 3. Herné problémy, riešenie hier o dvoch hráčov, MinMax a jeho modifikácie. 4. Reprezentácia problémov stavovým priestorom, metódy prehľadávania, pojem heuristiky. Informované a neinformované metódy prehľadávania, typické problémy z tejto oblasti. 5. Pravidlové systémy, ich architektúra, inferenčný mechanizmus, stratégie inferencie, aplikácia pravidlových systémov. 6. Aplikačné výstupy umelej inteligencie, možné smery jej ďalšieho rozvoja. 7. Strojové učenie, bifľovanie, induktívne učenie sa, Naivný Bayesovský klasifikátor. 8. Strojové učenie, regresia, metóda najmenších štvorcov, problém preučenia sa. 9. Vnímanie, rozpoznávanie vzorov, rozpoznávanie textu, extrakcia príznakov. 10. Plánovanie, hľadanie riešenia vs. plánovanie, strips, reprezentácia akcií. 11. Úvod do neurónových sietí, perceptrón. 12. Programovanie v jazyku Prolog."));
@@ -730,9 +678,7 @@ public class DBhelper extends SQLiteOpenHelper {
         addPredmet(new Predmet(7,"Výpočtová zložitosť algoritmov","",""));
         addPredmet(new Predmet(8,"Operačné systémy (KI/OS/15)","",""));
         addPredmet(new Predmet(9,"Kryptografia (KI/KRY) 2019","",""));
-
     }
-
 
     public void updateHodnotenie(Hodnotenie hodnotenie) {
 
@@ -746,6 +692,5 @@ public class DBhelper extends SQLiteOpenHelper {
                 "rowid = ?",
                 new String[]{""+hodnotenie.getId()}
         );
-
     }
 }

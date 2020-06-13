@@ -36,24 +36,12 @@ public class Osoba implements Parcelable {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+    public void setId(int id) { this.id = id; }
 
-    public String getMeno() {
-        return meno;
-    }
-
-    public void setMeno(String meno) {
-        this.meno = meno;
-    }
+    public String getMeno() { return meno; }
 
     public String getPriezvisko() {
         return priezvisko;
-    }
-
-    public void setPriezvisko(String priezvisko) {
-        this.priezvisko = priezvisko;
     }
 
     @Override

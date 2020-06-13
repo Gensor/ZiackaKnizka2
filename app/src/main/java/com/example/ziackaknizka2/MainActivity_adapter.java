@@ -14,8 +14,7 @@ import androidx.annotation.Nullable;
 import java.util.ArrayList;
 
 public class MainActivity_adapter extends ArrayAdapter {
-
-    ArrayList<UcitelovPredmet> predmety;
+    private ArrayList<UcitelovPredmet> predmety;
 
     public MainActivity_adapter(@NonNull Context context, ArrayList<UcitelovPredmet> predmety) {
         super(context, R.layout.activity_main_riadok,predmety);
@@ -36,33 +35,26 @@ public class MainActivity_adapter extends ArrayAdapter {
 
         nazov_predmetu.setText(predmet.toString());
 
-
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                zmazPredmet(v,predmet,databaza,position);
+                zmazPredmet(predmet,databaza,position);
             }
         });
-
-
 
         return customView;
     }
 
-
-    public void zmazPredmet(View view, final UcitelovPredmet predmet, final DBhelper databaza, final int position) {
+    public void zmazPredmet(final UcitelovPredmet predmet, final DBhelper databaza, final int position) {
         DialogInterface.OnClickListener clickListener = new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
-
                         databaza.deleteUcitelovPredmet(predmet);
                         predmety.remove(position);
                         notifyDataSetInvalidated();
-
-
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -74,8 +66,5 @@ public class MainActivity_adapter extends ArrayAdapter {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Naozaj si chces zmazat\n"+predmet+" ?").setPositiveButton("ano", clickListener)
                 .setNegativeButton("nie", clickListener).show();
-
     }
-
-
 }

@@ -38,7 +38,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="25dp"
             android:ems="10"
-            android:hint="pocet bodov"
+            android:hint="@string/pocet_bodov"
             android:inputType="number" />
 
         <EditText
@@ -49,7 +49,7 @@
             android:layout_marginTop="0dp"
             android:layout_marginEnd="16dp"
             android:ems="10"
-            android:hint="nazov hodnotenia"
+            android:hint="@string/nazov_hodnotenia"
             android:inputType="textPersonName" />
     </RelativeLayout>
 </RelativeLayout>

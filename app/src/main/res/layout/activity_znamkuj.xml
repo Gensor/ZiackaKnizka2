@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@mipmap/znamkuj_pozadie" >
@@ -25,7 +24,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:layout_marginTop="10dp"
-            android:text="TextView"
             android:textColor="@android:color/primary_text_light_nodisable"
             android:textSize="20sp" />
 
@@ -37,7 +35,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:layout_marginTop="74dp"
-            android:text="TextView"
             android:textColor="@color/meno"
             android:textSize="16sp" />
 
@@ -49,17 +46,15 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="11dp"
             android:layout_marginTop="101dp"
-            android:text="TextView"
             android:textSize="20sp" />
 
         <Spinner
-            android:id="@+id/spinner_znamka"
+            android:id="@+id/spinner_znamkuj_znamka"
             android:layout_width="146dp"
             android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="237dp"
-
             android:backgroundTint="@color/znamka"
             android:textAlignment="center" />
     </RelativeLayout>
@@ -107,7 +102,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginBottom="94dp"
             android:ems="10"
-            android:hint="nazov hodnotenia"
+            android:hint="@string/nazov_hodnotenia"
             android:inputType="textPersonName"
             android:textColorHint="@color/hint" />
 
@@ -120,7 +115,7 @@
             android:layout_marginStart="11dp"
             android:layout_marginBottom="41dp"
             android:ems="10"
-            android:hint="pocet bodov"
+            android:hint="@string/pocet_bodov"
             android:inputType="number"
             android:textColorHint="@color/hint" />
 

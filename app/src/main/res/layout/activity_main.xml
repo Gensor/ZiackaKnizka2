@@ -38,7 +38,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="83dp"
-            android:text="Profesor"
+            android:text="@string/profesor"
             android:textColor="@color/hint"
             android:textSize="18sp" />
 
@@ -50,7 +50,6 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="20dp"
             android:layout_marginTop="110dp"
-            android:text="TextView"
             android:textColor="@color/text_cierny"
             android:textSize="29sp" />
     </RelativeLayout>
@@ -71,17 +70,17 @@
             android:id="@+id/button_main_pridaj"
             android:layout_width="214dp"
             android:layout_height="37dp"
+            android:layout_below="@+id/listview_main_predmety"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_marginStart="89dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
             android:backgroundTint="#00FFFFFF"
-            android:drawableLeft="@mipmap/button_main_pridaj"
+            android:drawableStart="@mipmap/button_main_pridaj"
             android:outlineAmbientShadowColor="#00FFFFFF"
             android:outlineSpotShadowColor="#00FFFFFF"
             android:shadowColor="#00FFFFFF"
-            android:text="pridaj predmet"
             android:textAlignment="center"
             android:textColor="#FFFFFF"
             android:textSize="15sp" />
@@ -94,13 +93,13 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="24dp"
             android:layout_marginTop="15dp"
-            android:text="Predmety:"
+            android:text="@string/predmety"
             android:textSize="18sp" />
 
         <ListView
             android:id="@+id/listview_main_predmety"
-            android:layout_width="match_parent"
-            android:layout_height="319dp"
+            android:layout_width="wrap_content"
+            android:layout_height="250dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
