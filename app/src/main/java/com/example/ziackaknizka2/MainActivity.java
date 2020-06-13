@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private DBhelper databaza ;
     private Ucitel ucitel;
-    ListView listView;
-    Button button;
+    ListView listView_zoznamPredmetov;
+    Button button_pridajPredmet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
         ucitel = databaza.getUcitel(1);
 
         TextView menoUcitela = findViewById(R.id.textView_main_meno);
-        button = findViewById(R.id.button_main_pridaj);
-        button.setOnClickListener(new View.OnClickListener() {
+        button_pridajPredmet = findViewById(R.id.button_main_pridaj);
+        button_pridajPredmet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 pridajPredmet(v);
@@ -39,17 +39,14 @@ public class MainActivity extends AppCompatActivity {
         menoUcitela.setText(ucitel.toString());
 
         ukazPredmetyvListe(ucitel);
-
-
-
     }
 
     public void ukazPredmetyvListe(Ucitel ucitel){
         final ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
         ArrayAdapter<UcitelovPredmet> adapter = new MainActivity_adapter(MainActivity.this,predmety);
-        listView = findViewById(R.id.listview_main_predmety);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView_zoznamPredmetov = findViewById(R.id.listview_main_predmety);
+        listView_zoznamPredmetov.setAdapter(adapter);
+        listView_zoznamPredmetov.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(MainActivity.this, UkazTriedu.class );
@@ -59,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-
     public void pridajPredmet(View view){
         Intent intent = new Intent(this, PridajPredmet.class );
         ArrayList<Predmet> predmety = databaza.getVsetkyPredmety();
@@ -68,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("triedy", triedy);
         intent.putExtra("ucitel",ucitel);
         startActivity(intent);
-
-
     }
 
     @Override
@@ -79,11 +73,9 @@ public class MainActivity extends AppCompatActivity {
         ukazPredmetyvListe(ucitel);
     }
 
-    public void zmazPredmet(View view) {
-        ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
-        Intent intent = new Intent(this,ZmazPredmet.class);
-        intent.putExtra("predmety",predmety);
-        startActivity(intent);
-
+    @Override
+    protected void onDestroy() {
+        databaza.close();
+        super.onDestroy();
     }
 }

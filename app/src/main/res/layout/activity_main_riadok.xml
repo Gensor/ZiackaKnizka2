@@ -17,7 +17,6 @@
         android:layout_marginBottom="5dp"
         android:layout_toStartOf="@+id/imageButton_main_riadok_delete"
         android:gravity="center_vertical"
-        android:text="sdfasdfasdfasdfasdfasdfasdfasdf"
         android:textColor="@color/text_cierny"
         android:textSize="18sp" />
 
@@ -25,12 +24,11 @@
         android:id="@+id/imageButton_main_riadok_delete"
         android:layout_width="35dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-
         android:background="#00FFFFFF"
         android:focusableInTouchMode="true"
         android:scaleType="fitXY"

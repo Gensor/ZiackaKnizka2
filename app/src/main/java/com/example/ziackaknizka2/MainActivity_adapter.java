@@ -3,17 +3,14 @@ package com.example.ziackaknizka2;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 
 public class MainActivity_adapter extends ArrayAdapter {
@@ -23,7 +20,6 @@ public class MainActivity_adapter extends ArrayAdapter {
     public MainActivity_adapter(@NonNull Context context, ArrayList<UcitelovPredmet> predmety) {
         super(context, R.layout.activity_main_riadok,predmety);
         this.predmety = predmety;
-
     }
 
     @NonNull
@@ -40,14 +36,10 @@ public class MainActivity_adapter extends ArrayAdapter {
 
         nazov_predmetu.setText(predmet.toString());
 
-        delete_button.setImageResource(R.mipmap.imagebutton_main_delete);
 
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*databaza.deleteUcitelovPredmet(predmet);
-                predmety.remove(position);
-                notifyDataSetInvalidated();*/
                 zmazPredmet(v,predmet,databaza,position);
             }
         });
