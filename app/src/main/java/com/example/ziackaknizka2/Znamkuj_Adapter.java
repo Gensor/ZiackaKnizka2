@@ -8,18 +8,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import java.util.ArrayList;
 
 public class Znamkuj_Adapter extends ArrayAdapter {
-private Context context;
-ArrayList<Hodnotenie> hodnotenia;
+private ArrayList<Hodnotenie> hodnotenia;
+
     public Znamkuj_Adapter(@NonNull Context context, ArrayList<Hodnotenie> hodnotenia) {
-        super(context,R.layout.activity_hodnotenie_riadok, hodnotenia);
-        this.context = context;
+        super(context,R.layout.activity_znamkuj_riadok, hodnotenia);
         this.hodnotenia = hodnotenia;
     }
 
@@ -28,22 +25,20 @@ ArrayList<Hodnotenie> hodnotenia;
     public View getView(final int position, @Nullable final View convertView, @NonNull final ViewGroup parent) {
 
         LayoutInflater myInflator = LayoutInflater.from(getContext());
-        View customView = myInflator.inflate(R.layout.activity_hodnotenie_riadok,parent,false);
+        View customView = myInflator.inflate(R.layout.activity_znamkuj_riadok,parent,false);
         final DBhelper databaza = new DBhelper(parent.getContext());
-
         final Hodnotenie hodnotenie =(Hodnotenie) getItem(position);
 
-        TextView nazov = customView.findViewById(R.id.textView_hodnotenieRiadok_nazovHodnotenia);
-        TextView body = customView.findViewById(R.id.textView_hodnotenieRiadok_bodyHodnotenia);
-        ImageButton uprav = customView.findViewById(R.id.imageButton_hodnotenieRiadok_uprav);
-        ImageButton zmaz = customView.findViewById(R.id.imageButton_hodnotenieRiadok_zmaz);
+        TextView textview_nazov = customView.findViewById(R.id.textView_hodnotenieRiadok_nazovHodnotenia);
+        TextView textview_body = customView.findViewById(R.id.textView_hodnotenieRiadok_bodyHodnotenia);
+        ImageButton button_uprav = customView.findViewById(R.id.imageButton_hodnotenieRiadok_uprav);
+        ImageButton button_zmaz = customView.findViewById(R.id.imageButton_hodnotenieRiadok_zmaz);
 
-        nazov.setText(hodnotenie.getNazov());
-        body.setText(""+hodnotenie.getBody());
-        uprav.setImageResource(R.mipmap.imagebutton_znamkujadapter_uprav);
-        zmaz.setImageResource(R.mipmap.imagebutton_znamkujadapter_zmaz);
+        assert hodnotenie != null;
+        textview_nazov.setText(hodnotenie.getNazov());
+        textview_body.setText(""+hodnotenie.getBody());
 
-        zmaz.setOnClickListener(new View.OnClickListener() {
+        button_zmaz.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 databaza.deleteHodnotenie((Hodnotenie)getItem(position));
@@ -52,15 +47,14 @@ ArrayList<Hodnotenie> hodnotenia;
             }
         });
 
-        uprav.setOnClickListener(new View.OnClickListener() {
+        button_uprav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context,UpravHodnotenie.class);
+                Intent intent = new Intent(parent.getContext(),UpravHodnotenie.class);
                 intent.putExtra("hodnotenie", hodnotenie);
-                context.startActivity(intent);
+                parent.getContext().startActivity(intent);
             }
         });
-
         return customView;
     }
 

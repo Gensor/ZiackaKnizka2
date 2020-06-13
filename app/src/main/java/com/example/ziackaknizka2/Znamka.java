@@ -1,10 +1,10 @@
 package com.example.ziackaknizka2;
 
 public class Znamka {
-    int id;
-    Ziak ziak;
-    UcitelovPredmet predmet;
-    String znamka;
+    private int id;
+    private Ziak ziak;
+    private UcitelovPredmet predmet;
+    private String znamka;
 
     public Znamka(int id, Ziak ziak, UcitelovPredmet predmet, String znamka) {
         this.id = id;
@@ -23,10 +23,6 @@ public class Znamka {
 
     public Ziak getZiak() {
         return ziak;
-    }
-
-    public void setZiak(Ziak ziak) {
-        this.ziak = ziak;
     }
 
     public UcitelovPredmet getPredmet() {

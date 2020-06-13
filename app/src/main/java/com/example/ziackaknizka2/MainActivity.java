@@ -5,7 +5,6 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void ukazPredmetyvListe(Ucitel ucitel){
         final ArrayList<UcitelovPredmet> predmety = databaza.getVsetkyUcitelovePredmety(ucitel);
-        ArrayAdapter<UcitelovPredmet> adapter = new MainActivity_adapter(MainActivity.this,predmety);
+        MainActivity_adapter adapter = new MainActivity_adapter(MainActivity.this,predmety);
         listView_zoznamPredmetov = findViewById(R.id.listview_main_predmety);
         listView_zoznamPredmetov.setAdapter(adapter);
         listView_zoznamPredmetov.setOnItemClickListener(new AdapterView.OnItemClickListener() {

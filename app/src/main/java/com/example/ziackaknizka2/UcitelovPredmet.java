@@ -3,7 +3,6 @@ package com.example.ziackaknizka2;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-
 public class UcitelovPredmet  implements Parcelable {
     private int id;
     private Ucitel ucitel;
@@ -22,7 +21,6 @@ public class UcitelovPredmet  implements Parcelable {
         ucitel = in.readParcelable(Ucitel.class.getClassLoader());
         predmet = in.readParcelable(Predmet.class.getClassLoader());
         trieda = in.readParcelable(Trieda.class.getClassLoader());
-
     }
 
     @Override
@@ -50,8 +48,6 @@ public class UcitelovPredmet  implements Parcelable {
         }
     };
 
-
-
     public int getId() {
         return id;
     }
@@ -62,10 +58,6 @@ public class UcitelovPredmet  implements Parcelable {
 
     public Ucitel getUcitel() {
         return ucitel;
-    }
-
-    public void setUcitel(Ucitel ucitel) {
-        this.ucitel = ucitel;
     }
 
     public Predmet getPredmet() {
@@ -80,18 +72,9 @@ public class UcitelovPredmet  implements Parcelable {
         return trieda;
     }
 
-    public void setTrieda(Trieda trieda) {
-        this.trieda = trieda;
-    }
-
-
-
-
-
     @Override
     public String toString() {
         return trieda.getNazov()+": "+predmet.getNazov();
     }
-
 
 }
